@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://lgrpl3axaq1r"]
+
+[ext_resource type="PackedScene" uid="uid://4gypifecbfv4" path="res://box.tscn" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://b5j14vufpjw0l" path="res://player.tscn" id="2_fj7yv"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_gv5m4"]
+
+[node name="World" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [-35.0]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0, 0.337255, 0, 1)
+position = Vector2(478.5, 339)
+scale = Vector2(2715, 1632)
+mesh = SubResource("QuadMesh_gv5m4")
+metadata/_edit_lock_ = true
+
+[node name="Box" parent="." instance=ExtResource("1_f3sb7")]
+position = Vector2(368, 167)
+scale = Vector2(1.2, 1.2)
+
+[node name="Box2" parent="." instance=ExtResource("1_f3sb7")]
+position = Vector2(811, 126)
+scale = Vector2(1.2, 1.2)
+
+[node name="Box3" parent="." instance=ExtResource("1_f3sb7")]
+position = Vector2(987, 210)
+scale = Vector2(1.2, 1.2)
+
+[node name="Box6" parent="." instance=ExtResource("1_f3sb7")]
+position = Vector2(881, 395)
+scale = Vector2(1.2, 1.2)
+
+[node name="Box7" parent="." instance=ExtResource("1_f3sb7")]
+position = Vector2(575, 521)
+scale = Vector2(1.2, 1.2)
+
+[node name="Box4" parent="." instance=ExtResource("1_f3sb7")]
+position = Vector2(256, 393)
+scale = Vector2(1.2, 1.2)
+
+[node name="Box5" parent="." instance=ExtResource("1_f3sb7")]
+position = Vector2(578, 310)
+scale = Vector2(1.2, 1.2)
+
+[node name="Player" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(728, 277)
