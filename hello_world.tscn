@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://nbr7n5hv06ix"]
-
-[node name="HelloWorld" type="Node2D"]
-
-[node name="HelloNotWorld" type="Node2D" parent="."]
