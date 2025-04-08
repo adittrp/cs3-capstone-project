@@ -1,11 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://lgrpl3axaq1r"]
+[gd_scene load_steps=6 format=3 uid="uid://lgrpl3axaq1r"]
 
-[ext_resource type="PackedScene" uid="uid://4gypifecbfv4" path="res://box.tscn" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://dosrs2jwg6b0v" path="res://scripts/world.gd" id="1_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://wmk7agpfggpj" path="res://box.tscn" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://b5j14vufpjw0l" path="res://player.tscn" id="2_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://cofo3e06rxx7g" path="res://enemy.tscn" id="3_tlwt5"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_gv5m4"]
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_aqk2v")
 metadata/_edit_horizontal_guides_ = [-35.0]
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
@@ -45,3 +48,9 @@ scale = Vector2(1.2, 1.2)
 
 [node name="Player" parent="." instance=ExtResource("2_fj7yv")]
 position = Vector2(728, 277)
+
+[node name="Enemy" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(436, 289)
+scale = Vector2(3, 3)
+
+[node name="MainCamera" type="Camera2D" parent="."]
