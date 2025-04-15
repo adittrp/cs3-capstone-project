@@ -38,4 +38,4 @@ func _on_player_detector_body_entered(body: Node2D) -> void:
 func _on_player_detector_body_exited(body: Node2D) -> void:
 	if body is Player and player == body:
 		player = null
-		print(name + "lost the Player")
+		print(name + " lost the Player")

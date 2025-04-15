@@ -54,7 +54,7 @@ func _physics_process(delta):
 
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	
 	if body is Enemy:
+		print("Enemy touched player hitbox!")
 		died.emit()
 		queue_free()

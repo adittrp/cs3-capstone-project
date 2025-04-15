@@ -8,7 +8,8 @@ size = Vector2(8, 6)
 
 [node name="bullet" type="Area2D"]
 scale = Vector2(1.5, 1.5)
-collision_mask = 127
+collision_layer = 8
+collision_mask = 50
 script = ExtResource("1_y25gk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -18,3 +19,4 @@ shape = SubResource("RectangleShape2D_2b2rl")
 texture = ExtResource("2_l5glv")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

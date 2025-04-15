@@ -6,15 +6,14 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i3pqv"]
 radius = 23.0
-height = 88.0
+height = 86.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hqtel"]
-radius = 20.0
-height = 82.0
+radius = 24.0
+height = 90.0
 
 [node name="Player" type="CharacterBody2D"]
-collision_layer = 128
-collision_mask = 17
+collision_mask = 18
 script = ExtResource("1_i3pqv")
 
 [node name="Body" type="Sprite2D" parent="."]
@@ -26,17 +25,19 @@ position = Vector2(17, -0.333333)
 texture = ExtResource("3_sweqy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-9, -1)
+position = Vector2(-10, 0)
 shape = SubResource("CapsuleShape2D_i3pqv")
 
 [node name="Hitbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 8
+collision_layer = 32
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-9, -2)
+position = Vector2(-9, 0)
 shape = SubResource("CapsuleShape2D_hqtel")
 
 [node name="CameraRemoteTransform" type="RemoteTransform2D" parent="."]
 
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_shape_entered" from="Hitbox" to="." method="_on_hitbox_area_shape_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
