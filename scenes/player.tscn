@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5j14vufpjw0l"]
+[gd_scene load_steps=7 format=3 uid="uid://b5j14vufpjw0l"]
 
 [ext_resource type="Script" uid="uid://psnlxri5qr1p" path="res://scripts/player.gd" id="1_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://cnj2hknleku3y" path="res://assets/topdown_character.png" id="2_hqtel"]
 [ext_resource type="Texture2D" uid="uid://tqrsajw04hpk" path="res://assets/gun.png" id="3_sweqy"]
+[ext_resource type="AudioStream" uid="uid://blddwmelb7xsj" path="res://assets/lasershot.mp3" id="4_dqkch"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i3pqv"]
 radius = 23.0
@@ -37,6 +38,10 @@ position = Vector2(-9, 0)
 shape = SubResource("CapsuleShape2D_hqtel")
 
 [node name="CameraRemoteTransform" type="RemoteTransform2D" parent="."]
+
+[node name="GunShot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_dqkch")
+pitch_scale = 1.5
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_shape_entered" from="Hitbox" to="." method="_on_hitbox_area_shape_entered"]

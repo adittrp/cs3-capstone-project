@@ -5,9 +5,22 @@ signal died
 
 @onready var camera_remote_transform = $CameraRemoteTransform
 
+var curHealth: float = 100
+
+# Upgradables
+var maxHealth: int = 100
+var shotPower: float = 20
+var movSpeed: float = 500.0
+var shotSpeed: float = 0.4
+var armor: float = 0
+var regeneration: float = 0.1
+var magnet: int = 0
+var coinMutiplier: float = 1
+
 
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var canShoot = true
+
 
 func _process(delta):
 	look_at(get_global_mouse_position())
@@ -16,11 +29,10 @@ func _process(delta):
 		
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and canShoot:
 		shoot()
+		$GunShot.play()
 		canShoot = false
-		await get_tree().create_timer(0.25).timeout
+		await get_tree().create_timer(shotSpeed).timeout
 		canShoot = true
-	
-@export var speed := 500.0
 
 func shoot():
 	var bullet = bullet_scene.instantiate()
@@ -49,7 +61,7 @@ func _physics_process(delta):
 		direction.x += 1
 
 	direction = direction.normalized()
-	velocity = direction * speed
+	velocity = direction * movSpeed
 	move_and_slide()
 
 

@@ -4,7 +4,13 @@ class_name Enemy
 var player: Player = null
 var speed: float = 250.0
 var direction := Vector2.ZERO
+var health: int = 100
 
+func shot_at():
+	health -= 20
+	print(health)
+	if health <= 0:
+		queue_free()
 
 func _process(delta: float) -> void:
 	if player != null:
