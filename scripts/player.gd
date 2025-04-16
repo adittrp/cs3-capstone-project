@@ -16,7 +16,7 @@ var armor: float = 0
 var regeneration: float = 0.1
 var magnet: int = 0
 var coinMutiplier: float = 1
-
+#fdsaf
 
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var canShoot = true
