@@ -1,16 +1,16 @@
 extends Control
 
-var bg_music = preload("res://main_menu_folder/audios/المقطع الاصلي للفار الموسيقار _ ساعة متواصلة مع الفأر الموسيقار 4.mp3")
+#var bg_music = preload("res://main_menu_folder/audios/المقطع الاصلي للفار الموسيقار _ ساعة متواصلة مع الفأر الموسيقار 4.mp3")
 
-func _ready():
-	# Duplicate the stream and enable looping
-	var music = bg_music.duplicate()
-	music.loop = true
-	
-	# Set up and play the looping background music
-	$AudioStreamPlayer2D.stream = music
-	$AudioStreamPlayer2D.volume_db = -6  # Optional: reduce if too loud
-	$AudioStreamPlayer2D.play()
+#func _ready():
+	## Duplicate the stream and enable looping
+	#var music = bg_music.duplicate()
+	#music.loop = true
+	#
+	## Set up and play the looping background music
+	#$AudioStreamPlayer2D.stream = music
+	#$AudioStreamPlayer2D.volume_db = -6  # Optional: reduce if too loud
+	#$AudioStreamPlayer2D.play()
 
 func _on_start_pressed() -> void:
 	print("Start pressed...")
