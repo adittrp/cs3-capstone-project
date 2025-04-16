@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://cb6k83bywsdsq"]
-
-[node name="upgrade menu" type="Node2D"]
-
-[node name="Panel" type="Panel" parent="."]
-offset_right = 1954.0
-offset_bottom = 1111.0
