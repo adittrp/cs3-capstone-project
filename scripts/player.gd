@@ -6,23 +6,46 @@ signal died
 @onready var camera_remote_transform = $CameraRemoteTransform
 
 var curHealth: float = 100
+var invulnerable: bool = false
+var knockback_velocity: Vector2 = Vector2.ZERO
 
 # Upgradables
 var maxHealth: int = 100
-var shotPower: float = 20
+var shotPower: int = 20
 var movSpeed: float = 500.0
 var shotSpeed: float = 0.4
 var armor: float = 0
 var regeneration: float = 0.1
-var magnet: int = 0
-var coinMutiplier: float = 1
-#fdsaf
+var magnet: float = 0
+var coinMultiplier: float = 1
+
+var healthUpgradeLevel: int = 0
+var shotPowerUpgradeLevel: int = 0
+var movSpeedUpgradeLevel: int = 0
+var shotSpeedUpgradeLevel: int = 0
+var armorUpgradeLevel: int = 0
+var regenerationUpgradeLevel: int = 0
+var magnetUpgradeLevel: int = 0
+var coinMultiplierUpgradeLevel: int = 0
 
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var canShoot = true
 
 
 func _process(delta):
+	# Upgrade things
+	maxHealth = 100 + (25 * healthUpgradeLevel)
+	shotPower = int(20 * (1 + float(shotPowerUpgradeLevel)/3))
+	movSpeed = 500 + (50 * float(movSpeedUpgradeLevel))
+	shotSpeed = 1.0 - (0.1 * float(shotSpeedUpgradeLevel))
+	if shotSpeed <= 0.2:
+		shotSpeed = 0.3
+	
+	armor = 0.25 * float(armorUpgradeLevel)
+	regeneration = 0.1 + (0.15 * float(regenerationUpgradeLevel))
+	magnet = 1 + (0.25 * float(magnetUpgradeLevel))
+	coinMultiplier = (1.5 * float(coinMultiplierUpgradeLevel))
+	
 	look_at(get_global_mouse_position())
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
@@ -33,6 +56,10 @@ func _process(delta):
 		canShoot = false
 		await get_tree().create_timer(shotSpeed).timeout
 		canShoot = true
+		
+	if invulnerable:
+		await get_tree().create_timer(0.5).timeout
+		invulnerable = false
 
 func shoot():
 	var bullet = bullet_scene.instantiate()
@@ -45,6 +72,8 @@ func shoot():
 	
 	bullet.direction = shoot_direction
 	bullet.rotation = shoot_direction.angle()
+	
+	bullet.shotPower = shotPower
 	
 	get_tree().current_scene.add_child(bullet)
 	
@@ -61,12 +90,22 @@ func _physics_process(delta):
 		direction.x += 1
 
 	direction = direction.normalized()
-	velocity = direction * movSpeed
+	var player_velocity = direction * movSpeed
+	velocity = player_velocity + knockback_velocity
 	move_and_slide()
-
+	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 1000 * delta)
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	if body is Enemy:
-		print("Enemy touched player hitbox!")
+	if body is Enemy and !invulnerable:
+		print("Enemy hit player")
+		curHealth -= 20
+		invulnerable = true
+		print(curHealth)
+		
+		# Apply knockback direction and force
+		var knockback_dir = (global_position - body.global_position).normalized()
+		knockback_velocity = knockback_dir * 500
+		
+	if curHealth <= 0:
 		died.emit()
 		queue_free()

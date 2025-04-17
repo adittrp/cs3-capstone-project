@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var speed := 1600.0
+var shotPower: int
 
 var direction: Vector2 = Vector2.ZERO
 
@@ -14,7 +15,6 @@ func _ready():
 func _on_body_entered(body: Node2D) -> void:
 	queue_free()
 	if body.is_in_group("Enemies"):
-		body.shot_at()
+		body.shot_at(shotPower)
 	else:
 		body.queue_free() 
-	print("ARWA") # Replace with function body.

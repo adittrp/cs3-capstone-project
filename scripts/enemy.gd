@@ -6,9 +6,8 @@ var speed: float = 250.0
 var direction := Vector2.ZERO
 var health: int = 100
 
-func shot_at():
-	health -= 20
-	print(health)
+func shot_at(shotPower):
+	health -= shotPower
 	if health <= 0:
 		queue_free()
 
@@ -39,9 +38,7 @@ func _on_player_detector_body_entered(body: Node2D) -> void:
 	if body is Player:
 		if player == null:
 			player = body
-			print(name + " found the Player")
 
 func _on_player_detector_body_exited(body: Node2D) -> void:
 	if body is Player and player == body:
 		player = null
-		print(name + " lost the Player")
