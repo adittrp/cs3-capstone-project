@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://btnfd5r766h0l"]
+
+[ext_resource type="Script" uid="uid://y5qi2jt6cilt" path="res://TabDemo.gd" id="1_7x40y"]
+
+[node name="TabDemo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_7x40y")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 0
+anchor_right = 1.0
+offset_bottom = 80.0
+tab_alignment = 1
+current_tab = 0
+tabs_position = 1
+
+[node name="Abilities" type="Control" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Skills" type="Control" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1

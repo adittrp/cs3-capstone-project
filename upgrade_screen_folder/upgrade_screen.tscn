@@ -1,0 +1,206 @@
+[gd_scene load_steps=11 format=3 uid="uid://bn6aey1ax01tk"]
+
+[ext_resource type="Texture2D" uid="uid://0lo8fba7te27" path="res://upgrade_screen_folder/images/ChatGPT Image Apr 16, 2025, 07_02_23 PM.png" id="1_adbc8"]
+[ext_resource type="Script" uid="uid://cq114nyr5tdvg" path="res://upgrade_screen_folder/ui_layer.gd" id="2_ovwte"]
+[ext_resource type="Texture2D" uid="uid://bn8ivw1hkrpvi" path="res://upgrade_screen_folder/images/exampleicon.jpg" id="2_scxlh"]
+[ext_resource type="Script" path="res://upgrade_screen_folder/tab_container.gd" id="3_sbak5"]
+
+[sub_resource type="GDScript" id="GDScript_sbak5"]
+script/source = "extends Node2D
+"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_scxlh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_adbc8"]
+bg_color = Color(0.470588, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovwte"]
+bg_color = Color(0.6, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sbak5"]
+bg_color = Color(0.364706, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_adbc8"]
+
+[node name="UpgradeScreen" type="Node2D"]
+script = SubResource("GDScript_sbak5")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_top = 1.0
+offset_right = 1923.0
+offset_bottom = 1081.0
+texture = ExtResource("1_adbc8")
+expand_mode = 1
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="UILayer" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1923.0
+offset_bottom = 1080.0
+script = ExtResource("2_ovwte")
+
+[node name="Button" type="Button" parent="UI/UILayer"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 81.0
+offset_right = 237.0
+offset_bottom = 131.0
+theme_override_font_sizes/font_size = 26
+theme_override_styles/focus = SubResource("StyleBoxEmpty_scxlh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_adbc8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ovwte")
+theme_override_styles/normal = SubResource("StyleBoxFlat_sbak5")
+text = "Exit"
+
+[node name="CoinDisplay" type="Label" parent="UI/UILayer"]
+layout_mode = 0
+offset_left = 1632.0
+offset_top = 30.0
+offset_right = 1844.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 25
+text = "coins placeholder"
+
+[node name="TabContainer" type="TabContainer" parent="UI/UILayer"]
+layout_mode = 0
+offset_left = 153.0
+offset_top = 156.0
+offset_right = 836.0
+offset_bottom = 983.0
+tab_alignment = 1
+current_tab = 0
+script = ExtResource("3_sbak5")
+
+[node name="Abilities" type="Control" parent="UI/UILayer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/UILayer/TabContainer/Abilities"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 18.0
+offset_right = 667.0
+offset_bottom = 678.0
+
+[node name="AbilityList" type="VBoxContainer" parent="UI/UILayer/TabContainer/Abilities/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Skills" type="Control" parent="UI/UILayer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/UILayer/TabContainer/Skills"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 24.0
+offset_right = 657.0
+offset_bottom = 666.0
+
+[node name="SkillList" type="VBoxContainer" parent="UI/UILayer/TabContainer/Skills/ScrollContainer"]
+layout_mode = 2
+
+[node name="DetailPanel" type="PanelContainer" parent="UI/UILayer"]
+layout_mode = 0
+offset_left = 942.0
+offset_top = 139.0
+offset_right = 1760.0
+offset_bottom = 894.0
+
+[node name="IconWrapper" type="Control" parent="UI/UILayer/DetailPanel"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="UI/UILayer/DetailPanel/IconWrapper"]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 65.0
+offset_right = 1602.0
+offset_bottom = 1089.0
+scale = Vector2(0.198973, 0.277823)
+texture = ExtResource("2_scxlh")
+
+[node name="LabelLevelWrapper" type="Control" parent="UI/UILayer/DetailPanel"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="UI/UILayer/DetailPanel/LabelLevelWrapper"]
+layout_mode = 0
+offset_left = 424.0
+offset_top = 101.0
+offset_right = 702.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 19
+text = "Level: #"
+
+[node name="CurrentStatWrapper" type="Control" parent="UI/UILayer/DetailPanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/UILayer/DetailPanel/CurrentStatWrapper"]
+layout_mode = 0
+offset_left = 424.0
+offset_top = 158.0
+offset_right = 542.0
+offset_bottom = 185.0
+theme_override_font_sizes/font_size = 19
+text = "Current Stat:"
+
+[node name="NextStatWrapper" type="Control" parent="UI/UILayer/DetailPanel"]
+layout_mode = 2
+
+[node name="NextStatLabel" type="Label" parent="UI/UILayer/DetailPanel/NextStatWrapper"]
+layout_mode = 0
+offset_left = 427.0
+offset_top = 214.0
+offset_right = 518.0
+offset_bottom = 241.0
+theme_override_font_sizes/font_size = 19
+text = "Next Stat:"
+
+[node name="CostWrapper" type="Control" parent="UI/UILayer/DetailPanel"]
+layout_mode = 2
+
+[node name="CostLabel" type="Label" parent="UI/UILayer/DetailPanel/CostWrapper"]
+layout_mode = 0
+offset_left = 429.0
+offset_top = 267.0
+offset_right = 525.0
+offset_bottom = 297.0
+theme_override_font_sizes/font_size = 19
+text = "Cost:"
+
+[node name="DescriptionWrapper" type="Control" parent="UI/UILayer/DetailPanel"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="UI/UILayer/DetailPanel/DescriptionWrapper"]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 404.0
+offset_right = 322.0
+offset_bottom = 453.0
+theme_override_font_sizes/font_size = 35
+text = "Ability Name"
+
+[node name="SmallDescriptionLabel" type="Label" parent="UI/UILayer/DetailPanel/DescriptionWrapper"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 473.0
+offset_right = 1611.0
+offset_bottom = 962.0
+scale = Vector2(0.46022, 0.385459)
+theme_override_font_sizes/font_size = 39
+text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+autowrap_mode = 2
+
+[node name="UpgradeButtonWrapper" type="Control" parent="UI/UILayer/DetailPanel"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="UI/UILayer/DetailPanel/UpgradeButtonWrapper"]
+layout_mode = 0
+offset_left = 434.0
+offset_top = 320.0
+offset_right = 744.0
+offset_bottom = 381.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_adbc8")
+text = "Upgrade"
