@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://0lo8fba7te27" path="res://upgrade_screen_folder/images/ChatGPT Image Apr 16, 2025, 07_02_23 PM.png" id="1_adbc8"]
 [ext_resource type="Script" uid="uid://cq114nyr5tdvg" path="res://upgrade_screen_folder/ui_layer.gd" id="2_ovwte"]
 [ext_resource type="Texture2D" uid="uid://bn8ivw1hkrpvi" path="res://upgrade_screen_folder/images/exampleicon.jpg" id="2_scxlh"]
-[ext_resource type="Script" uid="uid://cw2iaiwbpbjm0" path="res://upgrade_screen_folder/tab_container.gd" id="3_sbak5"]
+[ext_resource type="Script" path="res://upgrade_screen_folder/tab_container.gd" id="3_sbak5"]
 
 [sub_resource type="GDScript" id="GDScript_sbak5"]
 script/source = "extends Node2D
