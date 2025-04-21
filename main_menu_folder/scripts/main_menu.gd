@@ -18,6 +18,7 @@ func _on_start_pressed() -> void:
 
 func _on_options_pressed() -> void:
 	print("Settings pressed...")
+	get_tree().change_scene_to_file("res://upgrade_screen_folder/upgrade_screen.tscn")
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()

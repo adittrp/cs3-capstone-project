@@ -7,7 +7,7 @@ extends Control
 var ability_entry_scene = preload("res://upgrade_screen_folder/ability_entry.tscn")
 var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn") # new
 
-var test_abilities = [ 
+var test_skills = [
 	{
 		"name": "Shoot Power",
 		"icon": preload("res://upgrade_screen_folder/images/ChatGPT Image Apr 20, 2025, 08_36_18 PM.png"),
@@ -33,7 +33,7 @@ var test_abilities = [
 		"stat": 1.0,
 		"next_stat": 1.3,
 		"cost": 60,
-		"desc": "Reduces the time between shots, increasing your overall fire rate. Great for crowd control and maximizing DPS in high-stress situations where timing matters. Works best when paired with other offensive upgrades like critical hit rate or piercing."
+		"desc": "Reduces the time between shots, increasing your overall fire rate. Great for crowd control and maximizing DPS in high-stress situations where timing matters. Works best when paired with other offensive upgrades like multi-projectile effects."
 	},
 	{
 		"name": "Health Regeneration",
@@ -63,26 +63,26 @@ var test_abilities = [
 		"desc": "Reinforces your character with an extra layer of reactive plating, reducing incoming damage from physical and projectile sources. This upgrade is essential for surviving tougher enemy waves and bosses that rely on rapid burst damage. Its benefits stack well with health regeneration to create a tankier build overall."
 	},
 	{
-		"name": "Critical Hit Rate",
+		"name": "Max Health Increase",
 		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
 		"level": 1,
-		"stat": 5,
-		"next_stat": 8,
-		"cost": 65,
-		"desc": "Enhances your weapon systems to deliver more precise and devastating blows. With an increased critical hit chance, you’ll occasionally deal double (or more) damage, turning close fights in your favor. Especially useful when paired with high fire-rate or multi-projectile upgrades."
+		"stat": 100,
+		"next_stat": 120,
+		"cost": 55,
+		"desc": "Expands your maximum health pool, letting you withstand more damage before requiring healing. Crucial for durability-focused builds and enduring boss mechanics without relying solely on regeneration."
 	},
 	{
-		"name": "Momentum Boost",
+		"name": "Coin Multiplier",
 		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
 		"level": 1,
 		"stat": 1.0,
-		"next_stat": 1.5,
-		"cost": 45,
-		"desc": "Builds kinetic energy as you move, granting a temporary movement speed and damage bonus when you're constantly in motion. Perfect for agile players who like to dash through levels without stopping. This upgrade encourages hit-and-run strategies and rewards fast-paced gameplay with a unique edge."
+		"next_stat": 1.25,
+		"cost": 50,
+		"desc": "Applies a multiplier to all coins collected, boosting your currency gains from enemies and pickups. Ideal for players aiming to rapidly amass resources for upgrades and shop purchases."
 	}
 ]
 
-var test_skills = [
+var test_abilities = [
 	{
 		"name": "Dash",
 		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
