@@ -1,15 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://vt014anqq8f7"]
+[gd_scene load_steps=7 format=3 uid="uid://vt014anqq8f7"]
 
-[ext_resource type="Script" path="res://upgrade_screen_folder/ability_entry.gd" id="1_0400q"]
+[ext_resource type="Script" uid="uid://rljf2tuae0yo" path="res://upgrade_screen_folder/ability_entry.gd" id="1_0400q"]
 [ext_resource type="Texture2D" uid="uid://bn8ivw1hkrpvi" path="res://upgrade_screen_folder/images/exampleicon.jpg" id="1_g2bgo"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_daxt5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_daxt5"]
+bg_color = Color(0.223103, 0.223103, 0.223103, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4a4q"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0400q"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="AbilityEntry" type="Button"]
 custom_minimum_size = Vector2(600, 100)
 offset_right = 600.0
 offset_bottom = 100.0
 scale = Vector2(1.00106, 1.00846)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_daxt5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_daxt5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l4a4q")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0400q")
 script = ExtResource("1_0400q")
 

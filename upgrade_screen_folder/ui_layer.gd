@@ -10,7 +10,7 @@ var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn")
 var test_abilities = [ 
 	{
 		"name": "Shoot Power",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
+		"icon": preload("res://upgrade_screen_folder/images/ChatGPT Image Apr 20, 2025, 08_36_18 PM.png"),
 		"level": 1,
 		"stat": 12,
 		"next_stat": 14,

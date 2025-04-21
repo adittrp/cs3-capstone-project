@@ -1,9 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://bn6aey1ax01tk"]
+[gd_scene load_steps=16 format=3 uid="uid://bn6aey1ax01tk"]
 
-[ext_resource type="Texture2D" uid="uid://0lo8fba7te27" path="res://upgrade_screen_folder/images/ChatGPT Image Apr 16, 2025, 07_02_23 PM.png" id="1_adbc8"]
+[ext_resource type="Texture2D" uid="uid://0lo8fba7te27" path="res://upgrade_screen_folder/images/upgrade_screen_background.png" id="1_adbc8"]
 [ext_resource type="Script" uid="uid://cq114nyr5tdvg" path="res://upgrade_screen_folder/ui_layer.gd" id="2_ovwte"]
 [ext_resource type="Texture2D" uid="uid://bn8ivw1hkrpvi" path="res://upgrade_screen_folder/images/exampleicon.jpg" id="2_scxlh"]
-[ext_resource type="Script" path="res://upgrade_screen_folder/tab_container.gd" id="3_sbak5"]
+[ext_resource type="Script" uid="uid://cw2iaiwbpbjm0" path="res://upgrade_screen_folder/tab_container.gd" id="3_sbak5"]
+[ext_resource type="Script" uid="uid://bbuj5rtehxn4o" path="res://upgrade_screen_folder/detail_panel.gd" id="4_y6mqa"]
+[ext_resource type="AudioStream" uid="uid://cbmkb4nngp16p" path="res://main_menu_folder/audios/المقطع الاصلي للفار الموسيقار _ ساعة متواصلة مع الفأر الموسيقار 4.mp3" id="6_x6mgc"]
+[ext_resource type="Script" uid="uid://b6s077gxdstha" path="res://upgrade_screen_folder/coins_panel.gd" id="7_tjusp"]
+[ext_resource type="Texture2D" uid="uid://bkn6pcfhxdg66" path="res://upgrade_screen_folder/images/Untitled design (2).png" id="7_xbyf2"]
 
 [sub_resource type="GDScript" id="GDScript_sbak5"]
 script/source = "extends Node2D
@@ -19,6 +23,8 @@ bg_color = Color(0.6, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sbak5"]
 bg_color = Color(0.364706, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p5ow5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_adbc8"]
 
@@ -41,7 +47,7 @@ offset_right = 1923.0
 offset_bottom = 1080.0
 script = ExtResource("2_ovwte")
 
-[node name="Button" type="Button" parent="UI/UILayer"]
+[node name="ExitButton" type="Button" parent="UI/UILayer"]
 layout_mode = 0
 offset_left = 46.0
 offset_top = 36.0
@@ -54,21 +60,13 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_ovwte")
 theme_override_styles/normal = SubResource("StyleBoxFlat_sbak5")
 text = "Exit"
 
-[node name="CoinDisplay" type="Label" parent="UI/UILayer"]
-layout_mode = 0
-offset_left = 1632.0
-offset_top = 30.0
-offset_right = 1844.0
-offset_bottom = 65.0
-theme_override_font_sizes/font_size = 25
-text = "coins placeholder"
-
 [node name="TabContainer" type="TabContainer" parent="UI/UILayer"]
 layout_mode = 0
 offset_left = 153.0
 offset_top = 156.0
 offset_right = 836.0
 offset_bottom = 983.0
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_p5ow5")
 tab_alignment = 1
 current_tab = 0
 script = ExtResource("3_sbak5")
@@ -102,6 +100,7 @@ offset_bottom = 666.0
 
 [node name="SkillList" type="VBoxContainer" parent="UI/UILayer/TabContainer/Skills/ScrollContainer"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="DetailPanel" type="PanelContainer" parent="UI/UILayer"]
 layout_mode = 0
@@ -109,6 +108,7 @@ offset_left = 942.0
 offset_top = 139.0
 offset_right = 1760.0
 offset_bottom = 894.0
+script = ExtResource("4_y6mqa")
 
 [node name="IconWrapper" type="Control" parent="UI/UILayer/DetailPanel"]
 layout_mode = 2
@@ -204,3 +204,37 @@ offset_right = 744.0
 offset_bottom = 381.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_adbc8")
 text = "Upgrade"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_x6mgc")
+autoplay = true
+
+[node name="CoinsPanel" type="PanelContainer" parent="."]
+offset_left = 1504.0
+offset_top = 33.0
+offset_right = 1860.0
+offset_bottom = 101.0
+script = ExtResource("7_tjusp")
+
+[node name="CoinIcon" type="Control" parent="CoinsPanel"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CoinsPanel/CoinIcon"]
+layout_mode = 0
+offset_left = -22.0
+offset_top = -32.0
+offset_right = 119.0
+offset_bottom = 100.0
+texture = ExtResource("7_xbyf2")
+expand_mode = 1
+
+[node name="CoinsLabel" type="Control" parent="CoinsPanel"]
+layout_mode = 2
+
+[node name="CoinDisplay" type="Label" parent="CoinsPanel/CoinsLabel"]
+offset_left = 91.0
+offset_top = 15.0
+offset_right = 303.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "5,000"
