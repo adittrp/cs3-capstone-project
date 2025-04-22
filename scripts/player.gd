@@ -5,7 +5,7 @@ signal died
 
 @onready var camera_remote_transform = $CameraRemoteTransform
 
-var curHealth: float = 100
+var curHealth: float
 var invulnerable: bool = false
 var knockback_velocity: Vector2 = Vector2.ZERO
 
@@ -19,11 +19,11 @@ var regeneration: float = 0.1
 var magnet: float = 0
 var coinMultiplier: float = 1
 
-var healthUpgradeLevel: int = 0
+var healthUpgradeLevel: int = 5
 var shotPowerUpgradeLevel: int = 0
 var movSpeedUpgradeLevel: int = 0
 var shotSpeedUpgradeLevel: int = 0
-var armorUpgradeLevel: int = 0
+var armorUpgradeLevel: int = 5
 var regenerationUpgradeLevel: int = 0
 var magnetUpgradeLevel: int = 0
 var coinMultiplierUpgradeLevel: int = 0
@@ -31,6 +31,12 @@ var coinMultiplierUpgradeLevel: int = 0
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var canShoot = true
 
+func _ready() -> void:
+	maxHealth = 100 + (25 * healthUpgradeLevel)
+	curHealth = maxHealth
+	
+	update_health_ui()
+	regenHealth()
 
 func _process(delta):
 	# Upgrade things
@@ -41,10 +47,12 @@ func _process(delta):
 	if shotSpeed <= 0.2:
 		shotSpeed = 0.3
 	
-	armor = 0.25 * float(armorUpgradeLevel)
+	armor = 1 + (0.25 * float(armorUpgradeLevel))
 	regeneration = 0.1 + (0.15 * float(regenerationUpgradeLevel))
 	magnet = 1 + (0.25 * float(magnetUpgradeLevel))
 	coinMultiplier = (1.5 * float(coinMultiplierUpgradeLevel))
+	
+	
 	
 	look_at(get_global_mouse_position())
 	if Input.is_action_just_pressed("quit"):
@@ -60,6 +68,14 @@ func _process(delta):
 	if invulnerable:
 		await get_tree().create_timer(0.5).timeout
 		invulnerable = false
+
+	
+func regenHealth():
+	await get_tree().create_timer(1).timeout
+	if curHealth < maxHealth:
+		curHealth += regeneration
+	regenHealth()
+	update_health_ui()
 
 func shoot():
 	var bullet = bullet_scene.instantiate()
@@ -98,14 +114,18 @@ func _physics_process(delta):
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Enemy and !invulnerable:
 		print("Enemy hit player")
-		curHealth -= 20
+		curHealth -= 20 / armor
+		
+		if curHealth < 0: 
+			curHealth = 0
+		body.stopped()
+		
 		update_health_ui()
 		invulnerable = true
-		print(curHealth)
 		
 		# Apply knockback direction and force
 		var knockback_dir = (global_position - body.global_position).normalized()
-		knockback_velocity = knockback_dir * 500
+		knockback_velocity = knockback_dir * 550
 		
 	if curHealth <= 0:
 		died.emit()
@@ -116,4 +136,6 @@ func update_health_ui():
 	var health_label = get_node("/root/World/UI/HealthLabel")
 
 	health_bar.value = curHealth
-	health_label.text = str(curHealth) + " HP"
+	
+	var formatted = "%.0f" % curHealth
+	health_label.text = formatted + " HP"
