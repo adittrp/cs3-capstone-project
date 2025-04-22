@@ -99,6 +99,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Enemy and !invulnerable:
 		print("Enemy hit player")
 		curHealth -= 20
+		update_health_ui()
 		invulnerable = true
 		print(curHealth)
 		
@@ -109,3 +110,10 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if curHealth <= 0:
 		died.emit()
 		queue_free()
+
+func update_health_ui():
+	var health_bar = get_node("/root/World/UI/HealthBar")
+	var health_label = get_node("/root/World/UI/HealthLabel")
+
+	health_bar.value = curHealth
+	health_label.text = str(curHealth) + " HP"
