@@ -5,8 +5,16 @@ var player: Player = null
 var speed: float = 250.0
 var direction := Vector2.ZERO
 var health: int = 100
-
 var cant_move: bool = false
+var wander_timer := 0.0
+
+# Cardinal directions (no diagonals)
+var directions := [
+	Vector2.LEFT,
+	Vector2.RIGHT,
+	Vector2.UP,
+	Vector2.DOWN
+]
 
 func shot_at(shotPower):
 	health -= shotPower
@@ -14,33 +22,37 @@ func shot_at(shotPower):
 		queue_free()
 
 func _process(delta: float) -> void:
-	if player != null:
-		look_at(player.global_position)
+	if direction != Vector2.ZERO:
+		look_at(global_position + direction * 50)
 
 func _physics_process(delta: float) -> void:
-	if player != null and !cant_move:
-		
-		var enemy_to_player = (player.global_position - global_position)
-		if enemy_to_player.length() > 20.0:
-			direction = enemy_to_player.normalized()
+	if cant_move:
+		return
+
+	if player != null:
+		var to_player = player.global_position - global_position
+		if to_player.length() > 20.0:
+			direction = to_player.normalized()
 		else:
 			direction = Vector2.ZERO
-		
-		if direction != Vector2.ZERO:
-			velocity = speed * direction
-		else:
-			velocity.x = move_toward(velocity.x, 0, speed)
-			velocity.y = move_toward(velocity.y, 0, speed)
-			
-		move_and_slide()
+	else:
+		wander_timer -= delta
+		if wander_timer <= 0:
+			direction = directions[randi() % directions.size()]
+			wander_timer = randf_range(1.0, 2.5)
+
+	if direction != Vector2.ZERO:
+		velocity = direction * speed
+	else:
+		velocity = Vector2.ZERO
+
+	move_and_slide()
 
 func stopped():
 	cant_move = true
 	await get_tree().create_timer(0.5).timeout
 	cant_move = false
-	
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
 	if body is Player:
-		if player == null:
-			player = body
+		player = body
