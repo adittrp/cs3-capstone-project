@@ -4,7 +4,7 @@ extends Node2D
 @onready var main_camera = $MainCamera
 @onready var coin_display: Label = $UI/CoinsPanel/CoinsLabel/CoinDisplay
 
-var coins: int = 5000
+var coins: int = 0
 
 func _ready() -> void:
 	player.died.connect(_on_player_died)
@@ -18,6 +18,7 @@ func _ready() -> void:
 	# -- end of initialize health bar -- #
 	
 	# set initial coin display
+	await get_tree().create_timer(0.2).timeout
 	_update_coin_display()
 
 func _on_player_died():

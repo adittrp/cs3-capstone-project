@@ -19,11 +19,11 @@ var regeneration: float = 0.1
 var magnet: float = 0
 var coinMultiplier: float = 1
 
-var healthUpgradeLevel: int = 5
+var healthUpgradeLevel: int = 0
 var shotPowerUpgradeLevel: int = 0
 var movSpeedUpgradeLevel: int = 0
 var shotSpeedUpgradeLevel: int = 0
-var armorUpgradeLevel: int = 5
+var armorUpgradeLevel: int = 0
 var regenerationUpgradeLevel: int = 0
 var magnetUpgradeLevel: int = 0
 var coinMultiplierUpgradeLevel: int = 0
@@ -32,6 +32,8 @@ var bullet_scene = preload("res://scenes/bullet.tscn")
 var canShoot = true
 
 func _ready() -> void:
+	await get_tree().create_timer(0.1).timeout
+	load_data()
 	maxHealth = 100 + (25 * healthUpgradeLevel)
 	curHealth = maxHealth
 	
@@ -90,7 +92,8 @@ func shoot():
 	bullet.rotation = shoot_direction.angle()
 	
 	bullet.shotPower = shotPower
-	
+	save_game()
+
 	get_tree().current_scene.add_child(bullet)
 	
 func _physics_process(delta):
@@ -135,7 +138,48 @@ func update_health_ui():
 	var health_bar = get_node("/root/World/UI/HealthBar")
 	var health_label = get_node("/root/World/UI/HealthLabel")
 
-	health_bar.value = curHealth
+	health_bar.value = curHealth/maxHealth * 100
 	
 	var formatted = "%.0f" % curHealth
-	health_label.text = formatted + " HP"
+	health_label.text = formatted + "/" + str(maxHealth) + " HP"
+	
+func save_game():
+	var world_node = get_tree().get_root().get_node("World")
+
+	var save_data = {
+		"healthUpgradeLevel": healthUpgradeLevel,
+		"shotPowerUpgradeLevel": shotPowerUpgradeLevel,
+		"movSpeedUpgradeLevel": movSpeedUpgradeLevel,
+		"shotSpeedUpgradeLevel": shotSpeedUpgradeLevel,
+		"armorUpgradeLevel": armorUpgradeLevel,
+		"regenerationUpgradeLevel": regenerationUpgradeLevel,
+		"magnetUpgradeLevel": magnetUpgradeLevel,
+		"coinMultiplierUpgradeLevel": coinMultiplierUpgradeLevel,
+		"coins": world_node.coins
+	}
+	
+	var save = FileAccess.open("user://upgradeData.save", FileAccess.WRITE)
+	save.store_var(save_data)
+	save.close()
+
+func load_data():
+	if FileAccess.file_exists("user://upgradeData.save"):
+		var save = FileAccess.open("user://upgradeData.save", FileAccess.READ)
+		var save_data = save.get_var()
+		save.close()
+		
+		healthUpgradeLevel = save_data.get("healthUpgradeLevel", 0)
+		shotPowerUpgradeLevel = save_data.get("shotPowerUpgradeLevel", 0)
+		movSpeedUpgradeLevel = save_data.get("movSpeedUpgradeLevel", 0)
+		shotSpeedUpgradeLevel = save_data.get("shotSpeedUpgradeLevel", 0)
+		armorUpgradeLevel = save_data.get("armorUpgradeLevel", 0)
+		regenerationUpgradeLevel = save_data.get("regenerationUpgradeLevel", 0)
+		magnetUpgradeLevel = save_data.get("magnetUpgradeLevel", 0)
+		coinMultiplierUpgradeLevel = save_data.get("coinMultiplierUpgradeLevel", 0)
+		
+		var world_node = get_tree().get_root().get_node("World")
+		world_node.coins = save_data.get("coins", 0)
+	
+func _notification(notif):
+	if notif == NOTIFICATION_WM_CLOSE_REQUEST:
+		save_game()

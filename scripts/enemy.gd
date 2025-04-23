@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Enemy
 
 var player: Player = null
-var speed: float = 250.0
+var speed: float = 150.0
 var wander_speed: float = 100.0  # Slower speed for wandering
 var direction := Vector2.ZERO
 var health: int = 100
