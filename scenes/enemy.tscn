@@ -1,14 +1,13 @@
 [gd_scene load_steps=5 format=3 uid="uid://cofo3e06rxx7g"]
 
 [ext_resource type="Script" uid="uid://2d3k38p3w2k7" path="res://scripts/enemy.gd" id="1_4gyqm"]
-[ext_resource type="Texture2D" uid="uid://djdqh3dav5ssv" path="res://assets/zombie.png" id="1_7k104"]
+[ext_resource type="Texture2D" uid="uid://bs02s4ur6bkr5" path="res://assets/zombieremovebg.png" id="2_md0e3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4gyqm"]
-radius = 6.0
-height = 26.0
+radius = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi2p4"]
-radius = 71.0
+radius = 84.006
 
 [node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
 collision_layer = 3
@@ -16,10 +15,11 @@ collision_mask = 17
 script = ExtResource("1_4gyqm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_7k104")
+rotation = 1.5708
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("2_md0e3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-5, 0)
 shape = SubResource("CapsuleShape2D_4gyqm")
 
 [node name="PlayerDetector" type="Area2D" parent="."]
