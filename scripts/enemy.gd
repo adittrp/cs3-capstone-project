@@ -3,6 +3,7 @@ class_name Enemy
 
 var player: Player = null
 var speed: float = 250.0
+var wander_speed: float = 100.0  # Slower speed for wandering
 var direction := Vector2.ZERO
 var health: int = 100
 var cant_move: bool = false
@@ -33,22 +34,24 @@ func _physics_process(delta: float) -> void:
 		var to_player = player.global_position - global_position
 		if to_player.length() > 20.0:
 			direction = to_player.normalized()
+			velocity = direction * speed
 		else:
 			direction = Vector2.ZERO
+			velocity = Vector2.ZERO
 	else:
 		wander_timer -= delta
 		if wander_timer <= 0:
 			direction = directions[randi() % directions.size()]
-			wander_timer = randf_range(1.0, 2.5)
+			wander_timer = randf_range(2.0, 4.0)  # Pause 2–4 seconds before changing direction
 
-	if direction != Vector2.ZERO:
-		velocity = direction * speed
-	else:
-		velocity = Vector2.ZERO
+		if direction != Vector2.ZERO:
+			velocity = direction * wander_speed
+		else:
+			velocity = Vector2.ZERO
 
 	move_and_slide()
 
-func stopped():
+func stopped():  
 	cant_move = true
 	await get_tree().create_timer(0.5).timeout
 	cant_move = false

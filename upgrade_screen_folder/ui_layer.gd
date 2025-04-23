@@ -19,7 +19,7 @@ var test_skills = [
 	},
 	{
 		"name": "Move Speed",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
+		"icon": preload("res://upgrade_screen_folder/images/movespeed-removebg-preview.png"),
 		"level": 1,
 		"stat": 10,
 		"next_stat": 12,
@@ -28,7 +28,7 @@ var test_skills = [
 	},
 	{
 		"name": "Shoot Speed",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
+		"icon": preload("res://upgrade_screen_folder/images/shootspeed-removebg-preview.png"),
 		"level": 1,
 		"stat": 1.0,
 		"next_stat": 1.3,
@@ -37,7 +37,7 @@ var test_skills = [
 	},
 	{
 		"name": "Health Regeneration",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
+		"icon": preload("res://upgrade_screen_folder/images/regen-removebg-preview.png"),
 		"level": 1,
 		"stat": 0.5,
 		"next_stat": 0.75,
@@ -46,7 +46,7 @@ var test_skills = [
 	},
 	{
 		"name": "Coin Magnet Strength",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
+		"icon": preload("res://upgrade_screen_folder/images/magnet-removebg-preview.png"),
 		"level": 1,
 		"stat": 100,
 		"next_stat": 150,
@@ -55,7 +55,7 @@ var test_skills = [
 	},
 	{
 		"name": "Armor Plating",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
+		"icon": preload("res://upgrade_screen_folder/images/armor-removebg-preview.png"),
 		"level": 1,
 		"stat": 5,
 		"next_stat": 8,
@@ -64,7 +64,7 @@ var test_skills = [
 	},
 	{
 		"name": "Max Health Increase",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
+		"icon": preload("res://upgrade_screen_folder/images/maxhealth-removebg-preview.png"),
 		"level": 1,
 		"stat": 100,
 		"next_stat": 120,
@@ -73,7 +73,7 @@ var test_skills = [
 	},
 	{
 		"name": "Coin Multiplier",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
+		"icon": preload("res://upgrade_screen_folder/images/coinmultiplier-removebg-preview.png"),
 		"level": 1,
 		"stat": 1.0,
 		"next_stat": 1.25,

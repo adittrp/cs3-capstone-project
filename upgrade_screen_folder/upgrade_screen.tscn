@@ -73,10 +73,11 @@ offset_right = 836.0
 offset_bottom = 983.0
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_p5ow5")
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 script = ExtResource("3_sbak5")
 
 [node name="Abilities" type="Control" parent="UI/UILayer/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -92,7 +93,6 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="Skills" type="Control" parent="UI/UILayer/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -101,7 +101,7 @@ layout_mode = 0
 offset_left = 18.0
 offset_top = 24.0
 offset_right = 657.0
-offset_bottom = 666.0
+offset_bottom = 771.0
 
 [node name="SkillList" type="VBoxContainer" parent="UI/UILayer/TabContainer/Skills/ScrollContainer"]
 layout_mode = 2
