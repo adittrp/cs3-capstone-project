@@ -20,10 +20,10 @@ var magnet: float = 0
 var coinMultiplier: float = 1
 
 var healthUpgradeLevel: int = 0
-var shotPowerUpgradeLevel: int = 0
+var shotPowerUpgradeLevel: int = 10
 var movSpeedUpgradeLevel: int = 0
 var shotSpeedUpgradeLevel: int = 0
-var armorUpgradeLevel: int = 0
+var armorUpgradeLevel: int = 10
 var regenerationUpgradeLevel: int = 0
 var magnetUpgradeLevel: int = 0
 var coinMultiplierUpgradeLevel: int = 0
@@ -42,6 +42,7 @@ func _ready() -> void:
 
 func _process(delta):
 	# Upgrade things
+	
 	maxHealth = 100 + (25 * healthUpgradeLevel)
 	shotPower = int(20 * (1 + float(shotPowerUpgradeLevel)/3))
 	movSpeed = 500 + (50 * float(movSpeedUpgradeLevel))
