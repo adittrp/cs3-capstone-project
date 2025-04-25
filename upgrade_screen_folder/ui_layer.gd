@@ -4,6 +4,7 @@ extends Control
 @onready var skill_list = $TabContainer/Skills/ScrollContainer/SkillList
 @onready var detail_panel = $DetailPanel
 
+
 var ability_entry_scene = preload("res://upgrade_screen_folder/ability_entry.tscn")
 var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn") # new
 
@@ -141,3 +142,4 @@ func _update_detail_panel(data: Dictionary):
 	$DetailPanel/CostWrapper/CostLabel.text = "Cost: %d" % data.cost
 	$DetailPanel/DescriptionWrapper/TitleLabel.text = data.name
 	$DetailPanel/DescriptionWrapper/SmallDescriptionLabel.text = data.desc
+	$DetailPanel/UpgradeButtonWrapper/Button.text = "Upgrade"
