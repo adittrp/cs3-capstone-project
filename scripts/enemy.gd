@@ -5,9 +5,11 @@ var player: Player = null
 var speed: float = 150.0
 var wander_speed: float = 100.0  # Slower speed for wandering
 var direction := Vector2.ZERO
+var max_health = 100
 var health: int = 100
 var cant_move: bool = false
 var wander_timer := 0.0
+@onready var health_bar = $HealthBar/ProgressBar
 
 # Cardinal directions (no diagonals)
 var directions := [
@@ -17,11 +19,18 @@ var directions := [
 	Vector2.DOWN
 ]
 
+func _ready() -> void:
+	update_health_bar()
+
+
+	
 func shot_at(shotPower):
 	health -= shotPower
 	if health <= 0:
 		queue_free()
-
+	else:
+		update_health_bar()
+		
 func _process(delta: float) -> void:
 	if direction != Vector2.ZERO:
 		look_at(global_position + direction * 50)
@@ -59,3 +68,6 @@ func stopped():
 func _on_player_detector_body_entered(body: Node2D) -> void:
 	if body is Player:
 		player = body
+
+func update_health_bar():
+	health_bar.value = health

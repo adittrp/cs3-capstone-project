@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cofo3e06rxx7g"]
+[gd_scene load_steps=8 format=3 uid="uid://cofo3e06rxx7g"]
 
 [ext_resource type="Script" uid="uid://2d3k38p3w2k7" path="res://scripts/enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://bs02s4ur6bkr5" path="res://assets/zombieremovebg.png" id="2_md0e3"]
@@ -8,6 +8,21 @@ radius = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi2p4"]
 radius = 84.006
+
+[sub_resource type="Theme" id="Theme_md0e3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ra3w"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5uy6h"]
+bg_color = Color(0.6, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
 collision_layer = 3
@@ -27,6 +42,27 @@ collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
 shape = SubResource("CircleShape2D_qi2p4")
+
+[node name="HealthBar" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -19.0
+offset_top = -47.0
+offset_right = 161.0
+offset_bottom = 21.0
+
+[node name="ProgressBar" type="ProgressBar" parent="HealthBar"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 63.0
+offset_right = 178.0
+offset_bottom = 103.0
+rotation = -1.5708
+scale = Vector2(0.2, 0.2)
+theme = SubResource("Theme_md0e3")
+theme_override_styles/background = SubResource("StyleBoxFlat_4ra3w")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5uy6h")
+show_percentage = false
 
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
 [connection signal="body_exited" from="PlayerDetector" to="." method="_on_player_detector_body_exited"]
