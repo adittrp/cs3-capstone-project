@@ -4,6 +4,7 @@ extends Control
 @onready var skill_list = $TabContainer/Skills/ScrollContainer/SkillList
 @onready var detail_panel = $DetailPanel
 @onready var cover_panel = $DetailPanel/CoverPanel
+@onready var upgrade_button = $DetailPanel/UpgradeButtonWrapper/Button
 
 var ability_entry_scene = preload("res://upgrade_screen_folder/ability_entry.tscn")
 var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn") # new
@@ -128,6 +129,9 @@ func _ready():
 		entry.set_data(data)
 		entry.skill_selected.connect(_on_skill_selected)
 		skill_list.add_child(entry)
+		
+	# connect button press
+	upgrade_button.pressed.connect(button_pressed)
 
 func _on_ability_selected(data: Dictionary):
 	_update_detail_panel(data)
@@ -148,6 +152,9 @@ func _update_detail_panel(data: Dictionary):
 	$DetailPanel/CostWrapper/CostLabel.text = "Cost: %d" % data.cost
 	$DetailPanel/DescriptionWrapper/TitleLabel.text = data.name
 	$DetailPanel/DescriptionWrapper/SmallDescriptionLabel.text = data.desc
+
+func button_pressed():
+	print("gurt")
 
 func fade_away_cover():
 	var tween = create_tween()

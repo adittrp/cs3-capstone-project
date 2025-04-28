@@ -30,8 +30,6 @@ func _ready():
 func save_game():
 	await get_tree().create_timer(1).timeout
 	
-	healthUpgradeLevel = 0
-	
 	var world_node = get_tree().get_root().get_node("World")
 	var save_data = {
 		"healthUpgradeLevel": healthUpgradeLevel,

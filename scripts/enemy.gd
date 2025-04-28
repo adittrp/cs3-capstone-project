@@ -62,7 +62,7 @@ func _physics_process(delta: float) -> void:
 
 func stopped():  
 	cant_move = true
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.3).timeout
 	cant_move = false
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
