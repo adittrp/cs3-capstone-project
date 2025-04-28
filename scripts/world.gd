@@ -7,6 +7,9 @@ extends Node2D
 var coins: int = 0
 
 func _ready() -> void:
+	
+	$BackgroundAudio.stream.loop = true 
+	$BackgroundAudio.play()
 	player.died.connect(_on_player_died)
 	player.camera_remote_transform.remote_path = main_camera.get_path()
 

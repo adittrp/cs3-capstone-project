@@ -4,6 +4,10 @@ class_name Player
 signal died
 
 @onready var camera_remote_transform = $CameraRemoteTransform
+#footstep stuff
+
+@export var step_interval: float = 0.4   # seconds between steps
+var _step_timer: float = 0.0
 
 var curHealth: float
 var invulnerable: bool = false
@@ -20,10 +24,10 @@ var magnet: float = 0
 var coinMultiplier: float = 1
 
 var healthUpgradeLevel: int = 0
-var shotPowerUpgradeLevel: int = 10
+var shotPowerUpgradeLevel: int = 0
 var movSpeedUpgradeLevel: int = 0
 var shotSpeedUpgradeLevel: int = 0
-var armorUpgradeLevel: int = 10
+var armorUpgradeLevel: int = 0
 var regenerationUpgradeLevel: int = 0
 var magnetUpgradeLevel: int = 0
 var coinMultiplierUpgradeLevel: int = 0
@@ -42,7 +46,6 @@ func _ready() -> void:
 
 func _process(delta):
 	# Upgrade things
-	
 	maxHealth = 100 + (25 * healthUpgradeLevel)
 	shotPower = int(20 * (1 + float(shotPowerUpgradeLevel)/3))
 	movSpeed = 500 + (50 * float(movSpeedUpgradeLevel))
@@ -71,7 +74,18 @@ func _process(delta):
 	if invulnerable:
 		await get_tree().create_timer(0.5).timeout
 		invulnerable = false
-
+	
+	# ─── Footstep SFX ─────────────────────────────────────────────────────────
+	var is_moving := velocity.length() > 0.1
+	if is_moving:
+		_step_timer += delta
+		if _step_timer >= step_interval:
+			$FootStep.play()
+			_step_timer = 0.0
+	else:
+		# reset so the very first step plays immediately on start
+		_step_timer = step_interval
+	# ─────────────────────────────────────────────────────────────────────────
 	
 func regenHealth():
 	await get_tree().create_timer(1).timeout

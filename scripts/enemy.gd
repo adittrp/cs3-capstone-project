@@ -71,3 +71,6 @@ func _on_player_detector_body_entered(body: Node2D) -> void:
 
 func update_health_bar():
 	health_bar.value = health
+	health_bar.max_value = max_health
+
+	

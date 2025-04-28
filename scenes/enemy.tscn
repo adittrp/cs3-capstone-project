@@ -2,14 +2,13 @@
 
 [ext_resource type="Script" uid="uid://2d3k38p3w2k7" path="res://scripts/enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://bs02s4ur6bkr5" path="res://assets/zombieremovebg.png" id="2_md0e3"]
+[ext_resource type="Script" uid="uid://du01kuwmy2680" path="res://scripts/progress_bar.gd" id="3_4ra3w"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4gyqm"]
 radius = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi2p4"]
 radius = 84.006
-
-[sub_resource type="Theme" id="Theme_md0e3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ra3w"]
 corner_radius_top_left = 20
@@ -52,17 +51,15 @@ offset_right = 161.0
 offset_bottom = 21.0
 
 [node name="ProgressBar" type="ProgressBar" parent="HealthBar"]
+clip_contents = true
 layout_mode = 0
-offset_left = -1.0
-offset_top = 63.0
-offset_right = 178.0
-offset_bottom = 103.0
-rotation = -1.5708
-scale = Vector2(0.2, 0.2)
-theme = SubResource("Theme_md0e3")
+offset_right = 20.0
+offset_bottom = 5.0
+scale = Vector2(0.01, 0.01)
 theme_override_styles/background = SubResource("StyleBoxFlat_4ra3w")
 theme_override_styles/fill = SubResource("StyleBoxFlat_5uy6h")
 show_percentage = false
+script = ExtResource("3_4ra3w")
 
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
 [connection signal="body_exited" from="PlayerDetector" to="." method="_on_player_detector_body_exited"]

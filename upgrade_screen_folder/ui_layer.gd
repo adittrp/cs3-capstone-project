@@ -3,10 +3,12 @@ extends Control
 @onready var ability_list = $TabContainer/Abilities/ScrollContainer/AbilityList
 @onready var skill_list = $TabContainer/Skills/ScrollContainer/SkillList
 @onready var detail_panel = $DetailPanel
+@onready var cover_panel = $DetailPanel/CoverPanel
 
 var ability_entry_scene = preload("res://upgrade_screen_folder/ability_entry.tscn")
 var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn") # new
 
+	
 var test_skills = [
 	{
 		"name": "Shoot Power",
@@ -129,9 +131,11 @@ func _ready():
 
 func _on_ability_selected(data: Dictionary):
 	_update_detail_panel(data)
+	fade_away_cover()
 
 func _on_skill_selected(data: Dictionary):
 	_update_detail_panel(data)
+	fade_away_cover()
 
 func _update_detail_panel(data: Dictionary):
 	$DetailPanel/IconWrapper/Icon.texture = data.icon
@@ -141,3 +145,16 @@ func _update_detail_panel(data: Dictionary):
 	$DetailPanel/CostWrapper/CostLabel.text = "Cost: %d" % data.cost
 	$DetailPanel/DescriptionWrapper/TitleLabel.text = data.name
 	$DetailPanel/DescriptionWrapper/SmallDescriptionLabel.text = data.desc
+
+func fade_away_cover():
+	var tween = create_tween()
+
+	var starting_color: Color = cover_panel.modulate
+	var ending_color: Color = starting_color
+	ending_color.a = 0.0  # target alpha (fully transparent)
+	
+	# Tween the modulate property over 0.5 seconds
+	tween.tween_property(cover_panel,"modulate",ending_color,0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	# After the fade is done, hide the panel
+	tween.finished.connect(func(): cover_panel.visible = false)
