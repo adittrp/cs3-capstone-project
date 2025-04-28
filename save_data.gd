@@ -8,9 +8,29 @@ var armorUpgradeLevel: int = 0
 var regenerationUpgradeLevel: int = 0
 var magnetUpgradeLevel: int = 0
 var coinMultiplierUpgradeLevel: int = 0
+var coins: int = 0
+
+var skillLevels = {
+	"Max Health Increase": healthUpgradeLevel,
+	"Shoot Power": shotPowerUpgradeLevel,
+	"Move Speed": movSpeedUpgradeLevel,
+	"Shoot Speed": shotSpeedUpgradeLevel,
+	"Armor Plating": armorUpgradeLevel,
+	"Health Regeneration": regenerationUpgradeLevel,
+	"Coin Magnet Strength": magnetUpgradeLevel,
+	"Coin Multiplier": coinMultiplierUpgradeLevel
+}
+
+func _ready():
+	await get_tree().create_timer(1).timeout
+	load_data()
+	update_skill_data()
 
 func save_game():
 	await get_tree().create_timer(1).timeout
+	
+	healthUpgradeLevel += 1
+	
 	var world_node = get_tree().get_root().get_node("World")
 	var save_data = {
 		"healthUpgradeLevel": healthUpgradeLevel,
@@ -21,7 +41,7 @@ func save_game():
 		"regenerationUpgradeLevel": regenerationUpgradeLevel,
 		"magnetUpgradeLevel": magnetUpgradeLevel,
 		"coinMultiplierUpgradeLevel": coinMultiplierUpgradeLevel,
-		"coins": world_node.coins
+		"coins": coins
 	}
 	
 	var save = FileAccess.open("user://upgradeData.save", FileAccess.WRITE)
@@ -29,6 +49,7 @@ func save_game():
 	save.close()
 	
 	save_game()
+	update_skill_data()
 	
 func load_data():
 	if FileAccess.file_exists("user://upgradeData.save"):
@@ -44,7 +65,17 @@ func load_data():
 		regenerationUpgradeLevel = save_data.get("regenerationUpgradeLevel", 0)
 		magnetUpgradeLevel = save_data.get("magnetUpgradeLevel", 0)
 		coinMultiplierUpgradeLevel = save_data.get("coinMultiplierUpgradeLevel", 0)
+		coins = save_data.get("coins", 0)
 		
-		var world_node = get_tree().get_root().get_node("World")
-		world_node.coins = save_data.get("coins", 0)
+func update_skill_data():
+	skillLevels = {
+		"Max Health Increase": healthUpgradeLevel,
+		"Shoot Power": shotPowerUpgradeLevel,
+		"Move Speed": movSpeedUpgradeLevel,
+		"Shoot Speed": shotSpeedUpgradeLevel,
+		"Armor Plating": armorUpgradeLevel,
+		"Health Regeneration": regenerationUpgradeLevel,
+		"Coin Magnet Strength": magnetUpgradeLevel,
+		"Coin Multiplier": coinMultiplierUpgradeLevel
+	}
 	

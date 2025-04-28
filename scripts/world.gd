@@ -4,8 +4,6 @@ extends Node2D
 @onready var main_camera = $MainCamera
 @onready var coin_display: Label = $UI/CoinsPanel/CoinsLabel/CoinDisplay
 
-var coins: int = 0
-
 func _ready() -> void:
 	player.died.connect(_on_player_died)
 	player.camera_remote_transform.remote_path = main_camera.get_path()
@@ -26,8 +24,8 @@ func _on_player_died():
 	get_tree().create_timer(3).timeout.connect(get_tree().reload_current_scene)
 
 func add_coin(amount: int = 1) -> void:
-	coins += amount
+	SaveData.coins += amount
 	_update_coin_display()
 
 func _update_coin_display() -> void:
-	coin_display.text = str(coins) + " COINS"
+	coin_display.text = str(SaveData.coins) + " COINS"

@@ -135,11 +135,16 @@ func _on_skill_selected(data: Dictionary):
 	_update_detail_panel(data)
 
 func _update_detail_panel(data: Dictionary):
+	var Name = data.name
+	var level = SaveData.skillLevels[Name]
+	
 	$DetailPanel/IconWrapper/Icon.texture = data.icon
-	$DetailPanel/LabelLevelWrapper/LevelLabel.text = "Level: %d" % data.level
+	$DetailPanel/LabelLevelWrapper/LevelLabel.text = "Level: %d" % level
 	$DetailPanel/CurrentStatWrapper/Label.text = "Current: %s" % str(data.stat)
 	$DetailPanel/NextStatWrapper/NextStatLabel.text = "Next: %s" % str(data.next_stat)
 	$DetailPanel/CostWrapper/CostLabel.text = "Cost: %d" % data.cost
 	$DetailPanel/DescriptionWrapper/TitleLabel.text = data.name
 	$DetailPanel/DescriptionWrapper/SmallDescriptionLabel.text = data.desc
 	$DetailPanel/UpgradeButtonWrapper/Button.text = "Upgrade"
+	
+	print(Name, level)
