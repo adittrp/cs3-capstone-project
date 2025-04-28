@@ -25,7 +25,8 @@ func _ready():
 	await get_tree().create_timer(1).timeout
 	load_data()
 	update_skill_data()
-
+	save_game()
+	
 func save_game():
 	await get_tree().create_timer(1).timeout
 	
@@ -48,6 +49,7 @@ func save_game():
 	save.store_var(save_data)
 	save.close()
 	
+	load_data()
 	save_game()
 	update_skill_data()
 	

@@ -30,7 +30,6 @@ func _ready() -> void:
 	
 	update_health_ui()
 	regenHealth()
-	SaveData.save_game()
 
 func _process(delta):
 	# Upgrade things
