@@ -138,8 +138,11 @@ func _on_skill_selected(data: Dictionary):
 	fade_away_cover()
 
 func _update_detail_panel(data: Dictionary):
+	var Name = data.name
+	var level = SaveData.skillLevels[Name]
+	
 	$DetailPanel/IconWrapper/Icon.texture = data.icon
-	$DetailPanel/LabelLevelWrapper/LevelLabel.text = "Level: %d" % data.level
+	$DetailPanel/LabelLevelWrapper/LevelLabel.text = "Level: %d" % level
 	$DetailPanel/CurrentStatWrapper/Label.text = "Current: %s" % str(data.stat)
 	$DetailPanel/NextStatWrapper/NextStatLabel.text = "Next: %s" % str(data.next_stat)
 	$DetailPanel/CostWrapper/CostLabel.text = "Cost: %d" % data.cost

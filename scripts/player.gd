@@ -170,7 +170,7 @@ func save_game():
 		"regenerationUpgradeLevel": regenerationUpgradeLevel,
 		"magnetUpgradeLevel": magnetUpgradeLevel,
 		"coinMultiplierUpgradeLevel": coinMultiplierUpgradeLevel,
-		"coins": world_node.coins
+		"coins": SaveData.coins
 	}
 	
 	var save = FileAccess.open("user://upgradeData.save", FileAccess.WRITE)
@@ -193,7 +193,7 @@ func load_data():
 		coinMultiplierUpgradeLevel = save_data.get("coinMultiplierUpgradeLevel", 0)
 		
 		var world_node = get_tree().get_root().get_node("World")
-		world_node.coins = save_data.get("coins", 0)
+		SaveData.coins = save_data.get("coins", 0)
 	
 func _notification(notif):
 	if notif == NOTIFICATION_WM_CLOSE_REQUEST:
