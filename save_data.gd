@@ -50,7 +50,9 @@ func _ready():
 	await get_tree().create_timer(0.3).timeout
 	load_data()
 	update_skill_data()
-	coins += 1000000
+	#coins += 1000000
+	
+	
 	moveSpeedUpgradeLevel = 2
 
 # --- Save current state to disk ---
