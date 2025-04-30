@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var coin_scene: PackedScene
-@export var coin_count: int = 15
+@export var coin_count: int = 100
 @export var player: Node2D
 @export var spawn_radius: float = 10000
 

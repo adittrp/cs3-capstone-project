@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://xq8myl2g1rjp"]
 
-[ext_resource type="Script" path="res://upgrade_screen_folder/skill_entry.gd" id="1_rr2nu"]
+[ext_resource type="Script" uid="uid://2rctcqjr5tj7" path="res://upgrade_screen_folder/skill_entry.gd" id="1_rr2nu"]
 [ext_resource type="Texture2D" uid="uid://bn8ivw1hkrpvi" path="res://upgrade_screen_folder/images/exampleicon.jpg" id="2_5tg0b"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6550b"]

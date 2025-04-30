@@ -15,73 +15,41 @@ var test_skills = [
 	{
 		"name": "Shoot Power",
 		"icon": preload("res://upgrade_screen_folder/images/ChatGPT Image Apr 20, 2025, 08_36_18 PM.png"),
-		"level": 1,
-		"stat": 12,
-		"next_stat": 14,
-		"cost": 50,
 		"desc": "Increases the raw damage output of your weapon per shot. Useful for taking down tougher enemies more efficiently in later stages. Higher shoot power is essential for burst damage builds and clearing out enemies before they can close in."
 	},
 	{
 		"name": "Move Speed",
 		"icon": preload("res://upgrade_screen_folder/images/movespeed-removebg-preview.png"),
-		"level": 1,
-		"stat": 10,
-		"next_stat": 12,
-		"cost": 40,
 		"desc": "Boosts your movement speed, allowing you to dodge projectiles, outrun enemies, and navigate the map with more control and fluidity. Movement upgrades are vital for evasion-based builds or any player relying on hit-and-run tactics."
 	},
 	{
 		"name": "Shoot Speed",
 		"icon": preload("res://upgrade_screen_folder/images/shootspeed-removebg-preview.png"),
-		"level": 1,
-		"stat": 1.0,
-		"next_stat": 1.3,
-		"cost": 60,
 		"desc": "Reduces the time between shots, increasing your overall fire rate. Great for crowd control and maximizing DPS in high-stress situations where timing matters. Works best when paired with other offensive upgrades like multi-projectile effects."
 	},
 	{
 		"name": "Health Regeneration",
 		"icon": preload("res://upgrade_screen_folder/images/regen-removebg-preview.png"),
-		"level": 1,
-		"stat": 0.5,
-		"next_stat": 0.75,
-		"cost": 80,
 		"desc": "Slowly regenerates your health over time. Especially useful during longer runs where healing items are limited or unavailable. Combos well with defensive abilities and armor upgrades for sustained survivability without relying on pickups."
 	},
 	{
 		"name": "Coin Magnet Strength",
 		"icon": preload("res://upgrade_screen_folder/images/magnet-removebg-preview.png"),
-		"level": 1,
-		"stat": 100,
-		"next_stat": 150,
-		"cost": 30,
 		"desc": "Increases the radius at which coins and loot are pulled toward you, making collection easier and allowing you to stay mobile while gathering. Great for farming builds or anyone who prefers to keep moving without doubling back for pickups."
 	},
 	{
 		"name": "Armor Plating",
 		"icon": preload("res://upgrade_screen_folder/images/armor-removebg-preview.png"),
-		"level": 1, 
-		"stat": 5,
-		"next_stat": 8,
-		"cost": 70,
 		"desc": "Reinforces your character with an extra layer of reactive plating, reducing incoming damage from physical and projectile sources. This upgrade is essential for surviving tougher enemy waves and bosses that rely on rapid burst damage. Its benefits stack well with health regeneration to create a tankier build overall."
 	},
 	{
 		"name": "Max Health Increase",
 		"icon": preload("res://upgrade_screen_folder/images/maxhealth-removebg-preview.png"),
-		"level": 1,
-		"stat": 100,
-		"next_stat": 120,
-		"cost": 55,
 		"desc": "Expands your maximum health pool, letting you withstand more damage before requiring healing. Crucial for durability-focused builds and enduring boss mechanics without relying solely on regeneration."
 	},
 	{
 		"name": "Coin Multiplier",
 		"icon": preload("res://upgrade_screen_folder/images/coinmultiplier-removebg-preview.png"),
-		"level": 1,
-		"stat": 1.0,
-		"next_stat": 1.25,
-		"cost": 50,
 		"desc": "Applies a multiplier to all coins collected, boosting your currency gains from enemies and pickups. Ideal for players aiming to rapidly amass resources for upgrades and shop purchases."
 	}
 ]
@@ -146,16 +114,16 @@ func _on_skill_selected(data: Dictionary):
 
 func _update_detail_panel(data: Dictionary):
 	var Name = data.name
-	print(Name)
+	
 	SaveData.save_game()
 	var level = SaveData.skillLevels[Name]
 	var current_and_next_stat_calculation_dict = calculate_stat_values(Name)
-	var current_cost = 10 + ceil(level * 1.75)
+	var current_cost = SaveData.skillLevelPrices[Name][0] * (SaveData.skillLevelPrices[Name][1] ** level)
 	
 	$DetailPanel/IconWrapper/Icon.texture = data.icon
 	$DetailPanel/LabelLevelWrapper/LevelLabel.text = "Level: %d" % level
-	$DetailPanel/CurrentStatWrapper/Label.text = "Current: %s" % str(int(current_and_next_stat_calculation_dict["current"]))
-	$DetailPanel/NextStatWrapper/NextStatLabel.text = "Next: %s" % str(int(current_and_next_stat_calculation_dict["next"]))
+	$DetailPanel/CurrentStatWrapper/Label.text = "Current: %s" % str(float(current_and_next_stat_calculation_dict["current"]))
+	$DetailPanel/NextStatWrapper/NextStatLabel.text = "Next: %s" % str(float(current_and_next_stat_calculation_dict["next"]))
 	$DetailPanel/CostWrapper/CostLabel.text = "Cost: %d" % current_cost
 	$DetailPanel/DescriptionWrapper/TitleLabel.text = data.name
 	$DetailPanel/DescriptionWrapper/SmallDescriptionLabel.text = data.desc
@@ -165,7 +133,7 @@ func button_pressed():
 		print("gurt")
 		return
 	var level = SaveData.skillLevels.get(selected_thing_name, 0)
-	var cost = 10 + ceil(level * 1.75)
+	var cost = SaveData.skillLevelPrices[selected_thing_name][0] * (SaveData.skillLevelPrices[selected_thing_name][1] ** level)
 	
 	if SaveData.coins >= cost:
 		# Deduct coins and level up
@@ -176,7 +144,7 @@ func button_pressed():
 		match selected_thing_name:
 			"Max Health Increase": SaveData.healthUpgradeLevel += 1
 			"Shoot Power": SaveData.shotPowerUpgradeLevel += 1
-			"Move Speed": SaveData.movSpeedUpgradeLevel += 1
+			"Move Speed": SaveData.moveSpeedUpgradeLevel += 1
 			"Shoot Speed": SaveData.shotSpeedUpgradeLevel += 1
 			"Armor Plating": SaveData.armorUpgradeLevel += 1
 			"Health Regeneration": SaveData.regenerationUpgradeLevel += 1
@@ -220,8 +188,8 @@ func calculate_stat_values(upgrade_name: String) -> Dictionary:
 			next = int(20 * (1 + float(SaveData.shotPowerUpgradeLevel + 1) / 3))
 		
 		"Move Speed":
-			current = 500 + (50 * SaveData.movSpeedUpgradeLevel)
-			next = 500 + (50 * (SaveData.movSpeedUpgradeLevel + 1))
+			current = 500 + (50 * SaveData.moveSpeedUpgradeLevel)
+			next = 500 + (50 * (SaveData.moveSpeedUpgradeLevel + 1))
 		
 		"Shoot Speed":
 			current = max(1.0 - (0.1 * SaveData.shotSpeedUpgradeLevel), 0.3)

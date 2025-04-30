@@ -3,7 +3,7 @@ extends Node
 # --- Upgrade levels ---
 var healthUpgradeLevel: int = 0
 var shotPowerUpgradeLevel: int = 0
-var movSpeedUpgradeLevel: int = 0
+var moveSpeedUpgradeLevel: int = 0
 var shotSpeedUpgradeLevel: int = 0
 var armorUpgradeLevel: int = 0
 var regenerationUpgradeLevel: int = 0
@@ -20,7 +20,7 @@ var coins: int = 0
 var skillLevels = {
 	"Max Health Increase": healthUpgradeLevel,
 	"Shoot Power": shotPowerUpgradeLevel,
-	"Move Speed": movSpeedUpgradeLevel,
+	"Move Speed": moveSpeedUpgradeLevel,
 	"Shoot Speed": shotSpeedUpgradeLevel,
 	"Armor Plating": armorUpgradeLevel,
 	"Health Regeneration": regenerationUpgradeLevel,
@@ -31,11 +31,27 @@ var skillLevels = {
 	"Time Slow": timeSlowUpgradeLevel
 }
 
+var skillLevelPrices = {
+	"Max Health Increase": [20, 1.1],
+	"Shoot Power": [20, 1.1],
+	"Move Speed": [15, 1.5],
+	"Shoot Speed": [50, 1.2],
+	"Armor Plating": [25, 1.2],
+	"Health Regeneration": [25, 1.25],
+	"Coin Magnet Strength": [40, 1.25],
+	"Coin Multiplier": [25, 1.25],
+	"Dash": [0, 0],
+	"Hypnosis Power": [0, 0],
+	"Time Slow": [0, 0]
+}
+
 func _ready():
 	# Give the rest of the tree a chance to initialize
 	await get_tree().create_timer(0.3).timeout
 	load_data()
 	update_skill_data()
+	coins += 1000000
+	moveSpeedUpgradeLevel = 2
 
 # --- Save current state to disk ---
 func save_game() -> void:
@@ -43,7 +59,7 @@ func save_game() -> void:
 	var save_data = {
 		"healthUpgradeLevel": healthUpgradeLevel,
 		"shotPowerUpgradeLevel": shotPowerUpgradeLevel,
-		"movSpeedUpgradeLevel": movSpeedUpgradeLevel,
+		"moveSpeedUpgradeLevel": moveSpeedUpgradeLevel,
 		"shotSpeedUpgradeLevel": shotSpeedUpgradeLevel,
 		"armorUpgradeLevel": armorUpgradeLevel,
 		"regenerationUpgradeLevel": regenerationUpgradeLevel,
@@ -74,7 +90,7 @@ func load_data() -> void:
 	# Pull out each value by the exact matching key:
 	healthUpgradeLevel            = save_data.get("healthUpgradeLevel", 0)
 	shotPowerUpgradeLevel         = save_data.get("shotPowerUpgradeLevel", 0)
-	movSpeedUpgradeLevel          = save_data.get("movSpeedUpgradeLevel", 0)
+	moveSpeedUpgradeLevel          = save_data.get("moveSpeedUpgradeLevel", 0)
 	shotSpeedUpgradeLevel         = save_data.get("shotSpeedUpgradeLevel", 0)
 	armorUpgradeLevel             = save_data.get("armorUpgradeLevel", 0)
 	regenerationUpgradeLevel      = save_data.get("regenerationUpgradeLevel", 0)
@@ -90,7 +106,7 @@ func update_skill_data() -> void:
 	skillLevels = {
 		"Max Health Increase": healthUpgradeLevel,
 		"Shoot Power": shotPowerUpgradeLevel,
-		"Move Speed": movSpeedUpgradeLevel,
+		"Move Speed": moveSpeedUpgradeLevel,
 		"Shoot Speed": shotSpeedUpgradeLevel,
 		"Armor Plating": armorUpgradeLevel,
 		"Health Regeneration": regenerationUpgradeLevel,

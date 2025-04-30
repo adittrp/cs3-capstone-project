@@ -39,17 +39,13 @@ func _process(delta):
 	# Upgrade things
 	maxHealth = 100 + (25 * SaveData.healthUpgradeLevel)
 	shotPower = int(20 * (1 + float(SaveData.shotPowerUpgradeLevel)/3))
-	movSpeed = 500 + (50 * float(SaveData.movSpeedUpgradeLevel))
+	movSpeed = 500 + (50 * float(SaveData.moveSpeedUpgradeLevel))
 	shotSpeed = 1.0 - (0.1 * float(SaveData.shotSpeedUpgradeLevel))
 	if shotSpeed <= 0.2:
 		shotSpeed = 0.3
 	
 	armor = 1 + (0.25 * float(SaveData.armorUpgradeLevel))
 	regeneration = 0.1 + (0.15 * float(SaveData.regenerationUpgradeLevel))
-	magnet = 1 + (0.25 * float(SaveData.magnetUpgradeLevel))
-	coinMultiplier = (1.5 * float(SaveData.coinMultiplierUpgradeLevel))
-	
-	
 	
 	look_at(get_global_mouse_position())
 	if Input.is_action_just_pressed("quit"):
