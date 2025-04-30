@@ -21,6 +21,8 @@ func _ready() -> void:
 	# set initial coin display
 	await get_tree().create_timer(0.2).timeout
 	_update_coin_display()
+	
+	
 
 func _on_player_died():
 	print("game over")
@@ -28,6 +30,7 @@ func _on_player_died():
 
 func add_coin(amount: int = 1) -> void:
 	SaveData.coins += amount
+	SaveData.save_game()   # ← persist immediately
 	_update_coin_display()
 
 func _update_coin_display() -> void:

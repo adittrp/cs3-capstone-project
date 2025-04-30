@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bn6aey1ax01tk"]
+[gd_scene load_steps=19 format=3 uid="uid://bn6aey1ax01tk"]
 
 [ext_resource type="Texture2D" uid="uid://0lo8fba7te27" path="res://upgrade_screen_folder/images/upgrade_screen_background.png" id="1_adbc8"]
 [ext_resource type="Script" uid="uid://cq114nyr5tdvg" path="res://upgrade_screen_folder/ui_layer.gd" id="2_ovwte"]
@@ -6,9 +6,10 @@
 [ext_resource type="Script" uid="uid://dqwu6b4yw8jg5" path="res://upgrade_screen_folder/exit_button.gd" id="3_n4frt"]
 [ext_resource type="Script" uid="uid://cw2iaiwbpbjm0" path="res://upgrade_screen_folder/tab_container.gd" id="3_sbak5"]
 [ext_resource type="Script" uid="uid://bbuj5rtehxn4o" path="res://upgrade_screen_folder/detail_panel.gd" id="4_y6mqa"]
-[ext_resource type="Script" path="res://upgrade_screen_folder/cover_panel.gd" id="6_n4frt"]
+[ext_resource type="Script" uid="uid://cmgy0qdkc8oem" path="res://upgrade_screen_folder/cover_panel.gd" id="6_n4frt"]
 [ext_resource type="Script" uid="uid://b6s077gxdstha" path="res://upgrade_screen_folder/coins_panel.gd" id="7_tjusp"]
 [ext_resource type="Texture2D" uid="uid://bkn6pcfhxdg66" path="res://upgrade_screen_folder/images/Untitled design (2).png" id="7_xbyf2"]
+[ext_resource type="Script" uid="uid://dtpy0x8u5t2vd" path="res://upgrade_screen_folder/coin_display.gd" id="10_3wk1i"]
 
 [sub_resource type="GDScript" id="GDScript_sbak5"]
 script/source = "extends Node2D
@@ -257,3 +258,4 @@ offset_right = 303.0
 offset_bottom = 50.0
 theme_override_font_sizes/font_size = 25
 text = "5,000"
+script = ExtResource("10_3wk1i")

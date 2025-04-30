@@ -8,8 +8,9 @@ extends Control
 
 var ability_entry_scene = preload("res://upgrade_screen_folder/ability_entry.tscn")
 var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn") # new
+var selected_thing_name := ""
 
-	
+
 var test_skills = [
 	{
 		"name": "Shoot Power",
@@ -59,7 +60,7 @@ var test_skills = [
 	{
 		"name": "Armor Plating",
 		"icon": preload("res://upgrade_screen_folder/images/armor-removebg-preview.png"),
-		"level": 1,
+		"level": 1, 
 		"stat": 5,
 		"next_stat": 8,
 		"cost": 70,
@@ -134,27 +135,63 @@ func _ready():
 	upgrade_button.pressed.connect(button_pressed)
 
 func _on_ability_selected(data: Dictionary):
+	selected_thing_name = data.name
 	_update_detail_panel(data)
 	fade_away_cover()
 
 func _on_skill_selected(data: Dictionary):
+	selected_thing_name = data.name
 	_update_detail_panel(data)
 	fade_away_cover()
 
 func _update_detail_panel(data: Dictionary):
 	var Name = data.name
+	print(Name)
+	SaveData.save_game()
 	var level = SaveData.skillLevels[Name]
+	var current_and_next_stat_calculation_dict = calculate_stat_values(Name)
+	var current_cost = 10 + ceil(level * 1.75)
 	
 	$DetailPanel/IconWrapper/Icon.texture = data.icon
 	$DetailPanel/LabelLevelWrapper/LevelLabel.text = "Level: %d" % level
-	$DetailPanel/CurrentStatWrapper/Label.text = "Current: %s" % str(data.stat)
-	$DetailPanel/NextStatWrapper/NextStatLabel.text = "Next: %s" % str(data.next_stat)
-	$DetailPanel/CostWrapper/CostLabel.text = "Cost: %d" % data.cost
+	$DetailPanel/CurrentStatWrapper/Label.text = "Current: %s" % str(int(current_and_next_stat_calculation_dict["current"]))
+	$DetailPanel/NextStatWrapper/NextStatLabel.text = "Next: %s" % str(int(current_and_next_stat_calculation_dict["next"]))
+	$DetailPanel/CostWrapper/CostLabel.text = "Cost: %d" % current_cost
 	$DetailPanel/DescriptionWrapper/TitleLabel.text = data.name
 	$DetailPanel/DescriptionWrapper/SmallDescriptionLabel.text = data.desc
 
 func button_pressed():
-	print("gurt")
+	if selected_thing_name == "":
+		print("gurt")
+		return
+	var level = SaveData.skillLevels.get(selected_thing_name, 0)
+	var cost = 10 + ceil(level * 1.75)
+	
+	if SaveData.coins >= cost:
+		# Deduct coins and level up
+		SaveData.coins -= cost
+		SaveData.skillLevels[selected_thing_name] = level + 1
+		
+		# Update the correct upgrade variable
+		match selected_thing_name:
+			"Max Health Increase": SaveData.healthUpgradeLevel += 1
+			"Shoot Power": SaveData.shotPowerUpgradeLevel += 1
+			"Move Speed": SaveData.movSpeedUpgradeLevel += 1
+			"Shoot Speed": SaveData.shotSpeedUpgradeLevel += 1
+			"Armor Plating": SaveData.armorUpgradeLevel += 1
+			"Health Regeneration": SaveData.regenerationUpgradeLevel += 1
+			"Coin Magnet Strength": SaveData.magnetUpgradeLevel += 1
+			"Coin Multiplier": SaveData.coinMultiplierUpgradeLevel += 1
+			_: print("not supported yet")
+		# Save updated data
+		await SaveData.save_game()
+
+		# Update detail panel with new stats
+		var updated_data = test_skills.filter(func(d): return d.name == selected_thing_name)[0]
+		_update_detail_panel(updated_data)
+	else:
+		print("Not enough coins!")
+	
 
 func fade_away_cover():
 	var tween = create_tween()
@@ -168,3 +205,48 @@ func fade_away_cover():
 	
 	# After the fade is done, hide the panel
 	tween.finished.connect(func(): cover_panel.visible = false)
+
+func calculate_stat_values(upgrade_name: String) -> Dictionary:
+	var current := 0.0
+	var next := 0.0
+	
+	match upgrade_name:
+		"Max Health Increase":
+			current = 100 + (25 * SaveData.healthUpgradeLevel)
+			next = 100 + (25 * (SaveData.healthUpgradeLevel + 1))
+		
+		"Shoot Power":
+			current = int(20 * (1 + float(SaveData.shotPowerUpgradeLevel) / 3))
+			next = int(20 * (1 + float(SaveData.shotPowerUpgradeLevel + 1) / 3))
+		
+		"Move Speed":
+			current = 500 + (50 * SaveData.movSpeedUpgradeLevel)
+			next = 500 + (50 * (SaveData.movSpeedUpgradeLevel + 1))
+		
+		"Shoot Speed":
+			current = max(1.0 - (0.1 * SaveData.shotSpeedUpgradeLevel), 0.3)
+			next = max(1.0 - (0.1 * (SaveData.shotSpeedUpgradeLevel + 1)), 0.3)
+		
+		"Armor Plating":
+			current = 1 + (0.25 * SaveData.armorUpgradeLevel)
+			next = 1 + (0.25 * (SaveData.armorUpgradeLevel + 1))
+		
+		"Health Regeneration":
+			current = 0.1 + (0.15 * SaveData.regenerationUpgradeLevel)
+			next = 0.1 + (0.15 * (SaveData.regenerationUpgradeLevel + 1))
+		
+		"Coin Magnet Strength":
+			current = 1 + (0.25 * SaveData.magnetUpgradeLevel)
+			next = 1 + (0.25 * (SaveData.magnetUpgradeLevel + 1))
+		
+		"Coin Multiplier":
+			current = 1.5 * SaveData.coinMultiplierUpgradeLevel
+			next = 1.5 * (SaveData.coinMultiplierUpgradeLevel + 1)
+		
+		_:
+			push_error("Invalid upgrade name: " + upgrade_name)
+	
+	return {
+		"current": current,
+		"next": next
+	}
