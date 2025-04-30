@@ -35,7 +35,7 @@ var skillLevelPrices = {
 	"Max Health Increase": [20, 1.1],
 	"Shoot Power": [20, 1.1],
 	"Move Speed": [15, 1.5],
-	"Shoot Speed": [50, 1.2],
+	"Shoot Speed": [50, 1.5],
 	"Armor Plating": [25, 1.2],
 	"Health Regeneration": [25, 1.25],
 	"Coin Magnet Strength": [40, 1.25],
