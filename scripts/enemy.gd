@@ -1,6 +1,9 @@
 extends CharacterBody2D
 class_name Enemy
 
+@onready var coin_scene = load("res://scenes/coin.tscn")
+@onready var coinManager = get_parent().get_node("CoinManager")
+
 var player: Player = null
 var speed: float = 150.0
 var wander_speed: float = 100.0  # Slower speed for wandering
@@ -21,12 +24,20 @@ var directions := [
 
 func _ready() -> void:
 	update_health_bar()
-
-
 	
 func shot_at(shotPower):
 	health -= shotPower
+
 	if health <= 0:
+		for i in range(5):
+			var coin = coin_scene.instantiate()
+			
+			var offset = Vector2(randf_range(-50, 50), randf_range(-50, 50))
+			var spawn_position = global_position + offset
+			
+			coin.position = coinManager.to_local(spawn_position)
+			coinManager.add_child(coin)
+		
 		queue_free()
 	else:
 		update_health_bar()

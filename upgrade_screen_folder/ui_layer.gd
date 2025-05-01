@@ -204,12 +204,12 @@ func calculate_stat_values(upgrade_name: String) -> Dictionary:
 			next = 0.1 + (0.15 * (SaveData.regenerationUpgradeLevel + 1))
 		
 		"Coin Magnet Strength":
-			current = 1 + (0.25 * SaveData.magnetUpgradeLevel)
-			next = 1 + (0.25 * (SaveData.magnetUpgradeLevel + 1))
+			current = 1.25 + 0.65 * float(SaveData.magnetUpgradeLevel)
+			next = 1.25 + 0.65 * float(SaveData.magnetUpgradeLevel + 1)
 		
 		"Coin Multiplier":
-			current = 1.5 * SaveData.coinMultiplierUpgradeLevel
-			next = 1.5 * (SaveData.coinMultiplierUpgradeLevel + 1)
+			current = 1 + int(1.5 * (SaveData.coinMultiplierUpgradeLevel))
+			next = 1 + int(1.5 * (SaveData.coinMultiplierUpgradeLevel + 1))
 		
 		_:
 			push_error("Invalid upgrade name: " + upgrade_name)
