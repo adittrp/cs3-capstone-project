@@ -37,3 +37,7 @@ func add_coin(amount: int = 1) -> void:
 
 func _update_coin_display() -> void:
 	coin_display.text = str(SaveData.coins) + " COINS"
+
+
+func _on_menu_button_pressed() -> void:
+	$HUD/PopupMenuPanel.visible = true
