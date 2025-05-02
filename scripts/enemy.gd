@@ -2,11 +2,12 @@ extends CharacterBody2D
 class_name Enemy
 
 @onready var coin_scene = load("res://scenes/coin.tscn")
-@onready var coinManager = get_parent().get_node("CoinManager")
+@onready var coinManager = get_parent().get_parent().get_node("CoinManager")
+@onready var player = get_parent().get_parent().get_node("Player")
 
-var player: Player = null
-var speed: float = 150.0
-var wander_speed: float = 100.0  # Slower speed for wandering
+#var player: Player = null
+var speed: float = randf_range(125, 175)
+var wander_speed: float = randf_range(90, 125)  # Slower speed for wandering
 var direction := Vector2.ZERO
 var max_health = 100
 var health: int = 100
@@ -50,24 +51,13 @@ func _physics_process(delta: float) -> void:
 	if cant_move:
 		return
 
-	if player != null:
-		var to_player = player.global_position - global_position
-		if to_player.length() > 20.0:
-			direction = to_player.normalized()
-			velocity = direction * speed
-		else:
-			direction = Vector2.ZERO
-			velocity = Vector2.ZERO
+	var to_player = player.global_position - global_position
+	if to_player.length() > 20.0:
+		direction = to_player.normalized()
+		velocity = direction * speed
 	else:
-		wander_timer -= delta
-		if wander_timer <= 0:
-			direction = directions[randi() % directions.size()]
-			wander_timer = randf_range(2.0, 4.0)  # Pause 2–4 seconds before changing direction
-
-		if direction != Vector2.ZERO:
-			velocity = direction * wander_speed
-		else:
-			velocity = Vector2.ZERO
+		direction = Vector2.ZERO
+		velocity = Vector2.ZERO
 
 	move_and_slide()
 
@@ -75,10 +65,6 @@ func stopped():
 	cant_move = true
 	await get_tree().create_timer(0.3).timeout
 	cant_move = false
-
-func _on_player_detector_body_entered(body: Node2D) -> void:
-	if body is Player:
-		player = body
 
 func update_health_bar():
 	health_bar.value = health

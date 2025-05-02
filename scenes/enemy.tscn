@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cofo3e06rxx7g"]
+[gd_scene load_steps=7 format=3 uid="uid://cofo3e06rxx7g"]
 
 [ext_resource type="Script" uid="uid://2d3k38p3w2k7" path="res://scripts/enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://bs02s4ur6bkr5" path="res://assets/zombieremovebg.png" id="2_md0e3"]
@@ -6,9 +6,6 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4gyqm"]
 radius = 11.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_qi2p4"]
-radius = 84.006
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ra3w"]
 corner_radius_top_left = 20
@@ -36,12 +33,6 @@ texture = ExtResource("2_md0e3")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_4gyqm")
 
-[node name="PlayerDetector" type="Area2D" parent="."]
-collision_layer = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
-shape = SubResource("CircleShape2D_qi2p4")
-
 [node name="HealthBar" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -60,6 +51,3 @@ theme_override_styles/background = SubResource("StyleBoxFlat_4ra3w")
 theme_override_styles/fill = SubResource("StyleBoxFlat_5uy6h")
 show_percentage = false
 script = ExtResource("3_4ra3w")
-
-[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
-[connection signal="body_exited" from="PlayerDetector" to="." method="_on_player_detector_body_exited"]
