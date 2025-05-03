@@ -3,8 +3,10 @@ extends Node2D
 @onready var player = $Player
 @onready var main_camera = $MainCamera
 @onready var coin_display: Label = $UI/CoinsPanel/CoinsLabel/CoinDisplay
-
+@onready var popup_menu_panel = $HUD/PopupMenuPanel
 func _ready() -> void:
+	popup_menu_panel.visible = false
+	get_tree().paused = false
 	
 	$BackgroundAudio.stream.loop = true 
 	$BackgroundAudio.play()
@@ -40,4 +42,5 @@ func _update_coin_display() -> void:
 
 
 func _on_menu_button_pressed() -> void:
-	$HUD/PopupMenuPanel.visible = true
+	popup_menu_panel.visible = !popup_menu_panel.visible
+	get_tree().paused = not get_tree().paused
