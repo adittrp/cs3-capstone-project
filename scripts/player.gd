@@ -4,6 +4,8 @@ class_name Player
 signal died
 
 @onready var camera_remote_transform = $CameraRemoteTransform
+@onready var hitbox = $Hitbox/PlayerCollider
+@onready var secondaryCollider = $CollisionShape2D
 #footstep stuff
 
 @export var step_interval: float = 0.4   # seconds between steps
@@ -61,6 +63,9 @@ func _process(delta):
 	if invulnerable:
 		await get_tree().create_timer(0.5).timeout
 		invulnerable = false
+		
+		hitbox.disabled = false
+		secondaryCollider.disabled = false
 	
 	# ─── Footstep SFX ─────────────────────────────────────────────────────────
 	var is_moving := velocity.length() > 0.1
@@ -125,6 +130,8 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		
 		update_health_ui()
 		invulnerable = true
+		
+		hitbox.disabled = true
 		
 		# Apply knockback direction and force
 		var knockback_dir = (global_position - body.global_position).normalized()
