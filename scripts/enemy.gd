@@ -50,16 +50,16 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if cant_move:
 		return
+	if player:
+		var to_player = player.global_position - global_position
+		if to_player.length() > 20.0:
+			direction = to_player.normalized()
+			velocity = direction * speed
+		else:
+			direction = Vector2.ZERO
+			velocity = Vector2.ZERO
 
-	var to_player = player.global_position - global_position
-	if to_player.length() > 20.0:
-		direction = to_player.normalized()
-		velocity = direction * speed
-	else:
-		direction = Vector2.ZERO
-		velocity = Vector2.ZERO
-
-	move_and_slide()
+		move_and_slide()
 
 func stopped():  
 	cant_move = true

@@ -31,7 +31,7 @@ func _on_player_died():
 	get_tree().create_timer(3).timeout.connect(get_tree().reload_current_scene)
 
 func add_coin(amount: int = 1) -> void:
-	SaveData.coins += 1 + int(amount * (1.5 * (SaveData.coinMultiplierUpgradeLevel)))
+	SaveData.coins += 1 + int((amount) * (1.5 * (SaveData.coinMultiplierUpgradeLevel)))
 	SaveData.save_game()   # ← persist immediately
 	
 	_update_coin_display()
