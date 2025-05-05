@@ -53,6 +53,7 @@ func _ready() -> void:
 func _process(delta):
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	# Upgrade things
 	maxHealth = 100 + (25 * healthUpgradeLevel)
 	shotPower = int(20 * (1 + float(shotPowerUpgradeLevel)/3))
@@ -71,6 +72,8 @@ func _process(delta):
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 	# Upgrade stats every frame
 	maxHealth = 100 + (25 * SaveData.healthUpgradeLevel)
 	shotPower = int(20 * (1 + float(SaveData.shotPowerUpgradeLevel)/3))
@@ -83,6 +86,9 @@ func _process(delta):
 	regeneration = 0.1 + (0.15 * float(SaveData.regenerationUpgradeLevel))
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -98,6 +104,7 @@ func _process(delta):
 		canShoot = true
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		
 	if invulnerable:
 		await get_tree().create_timer(0.5).timeout
@@ -105,6 +112,8 @@ func _process(delta):
 
 	
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
@@ -119,6 +128,9 @@ func _process(delta):
 		_step_timer = step_interval
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -141,7 +153,11 @@ func shoot():
 	bullet.shotPower = shotPower
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -173,6 +189,7 @@ func _physics_process(delta):
 func _on_hitbox_body_entered(body: Node2D) -> void:
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	if body is Enemy and !invulnerable:
 		print("Enemy hit player")
 		curHealth -= 20 / armor
@@ -192,6 +209,8 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		died.emit()
 		queue_free()
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 	if body is Enemy and body not in enemies_inside:
@@ -228,6 +247,9 @@ func contact_damage_loop() -> void:
 			secondaryCollider.disabled = false
 # ───────────────────────────────────────────────────────────────
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -237,11 +259,16 @@ func update_health_ui():
 	var health_label = get_node("/root/World/UI/HealthLabel")
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 	health_bar.value = curHealth
 	
 	var formatted = "%.0f" % curHealth
 	health_label.text = formatted + " HP"
+=======
+	health_bar.value = curHealth / maxHealth * 100
+	health_label.text = "%.0f/%d HP" % [curHealth, maxHealth]
+>>>>>>> Stashed changes
 =======
 	health_bar.value = curHealth / maxHealth * 100
 	health_label.text = "%.0f/%d HP" % [curHealth, maxHealth]
