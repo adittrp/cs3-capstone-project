@@ -10,35 +10,38 @@ var roundSystem = {
 var roundNumber : int = 1
 
 @onready var enemy = load("res://scenes/enemy.tscn")
+@onready var player = get_parent().get_node("Player") # Adjust path if needed
 
 func _ready():
 	await get_tree().create_timer(1).timeout
 	startRound(roundNumber)
 	
 func startRound(round):
+	await get_tree().create_timer(1).timeout
+	
+	
 	if round < 1:
 		print("Invalid round number")
 		return
 	
 	var roundData = roundSystem["Round" + str(round)]
 	
-	for enemy in roundData:
-		for i in range(600/enemy[2]):
-			await get_tree().create_timer(enemy[2]/20).timeout
-			print()
-			#for e in range(enemy[1]):
-				#var angle = (TAU / number_of_objects) * i  # TAU = 2 * PI
-				#var x = cos(angle) * radius
-				#var y = sin(angle) * radius
-				#var new_instance = object_scene.instantiate()
-				#new_instance.position = Vector2(x, y) + position  # Offset from the current node's position
-				#add_child(new_instance)
-			#
-			#var newEnemy = enemy.instantiate()
-			#
-			#var offset = Vector2(randf_range(-50, 50), randf_range(-50, 50))
-			#var spawn_position = global_position + offset
-			#
-			#newEnemy.position = coinManager.to_local(spawn_position)
-			#coinManager.add_child(coin)
-	
+	for enemy_info in roundData:
+		var count_per_wave = enemy_info[1]
+		var interval_seconds = enemy_info[2]
+		var number_of_waves = 10
+		
+		for wave in range(number_of_waves):
+			spawn_enemies_around_player(count_per_wave)
+			await get_tree().create_timer(interval_seconds).timeout
+
+func spawn_enemies_around_player(count: int):
+	for i in range(count):
+		var new_enemy = enemy.instantiate()
+		
+		var angle = randf_range(0, TAU)
+		var distance = 1500
+		var offset = Vector2(cos(angle), sin(angle)) * distance
+		new_enemy.position = player.global_position + offset
+		
+		add_child(new_enemy)

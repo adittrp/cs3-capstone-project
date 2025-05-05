@@ -51,9 +51,6 @@ func _ready():
 	load_data()
 	update_skill_data()
 	#coins += 1000000
-	
-	
-	moveSpeedUpgradeLevel = 2
 
 # --- Save current state to disk ---
 func save_game() -> void:
