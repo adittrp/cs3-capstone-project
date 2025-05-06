@@ -37,13 +37,16 @@ var skillLevelPrices = {
 	"Move Speed": [15, 1.5],
 	"Shoot Speed": [50, 1.5],
 	"Armor Plating": [25, 1.2],
-	"Health Regeneration": [25, 1.25],
+	"Health Regeneration": [25, 1.5],
 	"Coin Magnet Strength": [40, 1.25],
 	"Coin Multiplier": [25, 1.25],
 	"Dash": [0, 0],
 	"Hypnosis Power": [0, 0],
 	"Time Slow": [0, 0]
 }
+
+var CoinValue : int = 1
+var DamageScale : int = 1
 
 func _ready():
 	# Give the rest of the tree a chance to initialize

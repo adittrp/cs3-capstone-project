@@ -1,13 +1,13 @@
 extends Node2D
 
 var roundSystem = {
-	"Level1": [["Zombie", 50, 60]],
+	"Level1": [["Zombie", 75, 60]],
 	"Level2": [],
 	"Level3": [],
 	"Level4": [],
-	"Level5": []
+	"Level5": [["Zombie", 75, 60]]
 }
-var LevelNumber : int = 1
+var LevelNumber : int = 5
 
 @onready var enemy = load("res://scenes/enemy.tscn")
 @onready var player = get_parent().get_node("Player") # Adjust path if needed
@@ -24,7 +24,7 @@ func startRound(level):
 		print("Invalid round number")
 		return
 	
-	var roundData = roundSystem["Level" + str(round)]
+	var roundData = roundSystem["Level" + str(level)]
 	
 	for enemy_info in roundData:
 		var count_per_wave = enemy_info[1]
@@ -32,7 +32,11 @@ func startRound(level):
 		var number_of_waves = 10
 		
 		for wave in range(number_of_waves):
-			spawn_enemies_around_player(count_per_wave)
+			spawn_enemies_around_player(count_per_wave + wave*5)
+			
+			SaveData.CoinValue = LevelNumber + (0.1*wave)
+			SaveData.DamageScale = LevelNumber + (0.1*wave)
+			
 			await get_tree().create_timer(interval_seconds).timeout
 
 func spawn_enemies_around_player(count: int):
@@ -40,7 +44,7 @@ func spawn_enemies_around_player(count: int):
 		var new_enemy = enemy.instantiate()
 		
 		var angle = randf_range(0, TAU)
-		var distance = 1750
+		var distance = 2000
 		var offset = Vector2(cos(angle), sin(angle)) * distance
 		new_enemy.position = player.global_position + offset
 		

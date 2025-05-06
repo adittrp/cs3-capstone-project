@@ -8,7 +8,7 @@ signal died
 @onready var secondaryCollider = $CollisionShape2D
 
 @export var step_interval: float = 0.4   # seconds between steps
-@export var contact_damage_interval: float = 0.3
+@export var contact_damage_interval: float = 0.1
 
 var _step_timer: float = 0.0
 
@@ -50,7 +50,7 @@ func _process(delta):
 		shotSpeed = 0.3
 
 	armor = 1 + (0.25 * float(SaveData.armorUpgradeLevel))
-	regeneration = 0.1 + (0.15 * float(SaveData.regenerationUpgradeLevel))
+	regeneration = 0.1 + (0.05 * float(SaveData.regenerationUpgradeLevel))
 
 	look_at(get_global_mouse_position())
 	if Input.is_action_just_pressed("quit"):
@@ -126,7 +126,7 @@ func contact_damage_loop() -> void:
 		await get_tree().create_timer(contact_damage_interval).timeout
 
 		if enemies_inside.size() > 0 and !invulnerable:
-			curHealth -= 20 / armor
+			curHealth -= (20 * SaveData.DamageScale) / armor
 			curHealth = max(curHealth, 0)
 
 			update_health_ui()
@@ -142,7 +142,7 @@ func contact_damage_loop() -> void:
 				died.emit()
 				queue_free()
 
-			await get_tree().create_timer(0.3).timeout
+			await get_tree().create_timer(0.1).timeout
 			invulnerable = false
 			hitbox.disabled = false
 			secondaryCollider.disabled = false
