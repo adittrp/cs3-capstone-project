@@ -29,6 +29,7 @@ var coinMultiplier: float = 1
 
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var canShoot = true
+var invincible = false
 
 func _ready() -> void:
 	await get_tree().create_timer(0.1).timeout
@@ -56,7 +57,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and canShoot:
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and canShoot and !invincible:
 		shoot()
 		$GunShot.play()
 		canShoot = false
@@ -94,22 +95,23 @@ func shoot():
 	get_tree().current_scene.add_child(bullet)
 
 func _physics_process(delta):
-	var direction := Vector2.ZERO
-	if !invulnerable:
-		if Input.is_action_pressed("move_up"):
-			direction.y -= 1
-		if Input.is_action_pressed("move_down"):
-			direction.y += 1
-		if Input.is_action_pressed("move_left"):
-			direction.x -= 1
-		if Input.is_action_pressed("move_right"):
-			direction.x += 1
+	if not invincible:
+		var direction := Vector2.ZERO
+		if !invulnerable:
+			if Input.is_action_pressed("move_up"):
+				direction.y -= 1
+			if Input.is_action_pressed("move_down"):
+				direction.y += 1
+			if Input.is_action_pressed("move_left"):
+				direction.x -= 1
+			if Input.is_action_pressed("move_right"):
+				direction.x += 1
 
-	direction = direction.normalized()
-	var player_velocity = direction * movSpeed
-	velocity = player_velocity + knockback_velocity
-	move_and_slide()
-	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 1000 * delta)
+		direction = direction.normalized()
+		var player_velocity = direction * movSpeed
+		velocity = player_velocity + knockback_velocity
+		move_and_slide()
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 1000 * delta)
 
 # ───────────────────────────────────────────────────────────────
 # Overlap-Based Damage System
@@ -125,7 +127,7 @@ func contact_damage_loop() -> void:
 	while true:
 		await get_tree().create_timer(contact_damage_interval).timeout
 
-		if enemies_inside.size() > 0 and !invulnerable:
+		if enemies_inside.size() > 0 and !invulnerable and !invincible:
 			curHealth -= (20 * SaveData.DamageScale) / armor
 			curHealth = max(curHealth, 0)
 

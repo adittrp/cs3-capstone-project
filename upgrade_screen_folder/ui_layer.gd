@@ -5,6 +5,7 @@ extends Control
 @onready var detail_panel = $DetailPanel
 @onready var cover_panel = $DetailPanel/CoverPanel
 @onready var upgrade_button = $DetailPanel/UpgradeButtonWrapper/Button
+@onready var back_button = $ExitButton
 
 var ability_entry_scene = preload("res://upgrade_screen_folder/ability_entry.tscn")
 var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn") # new
@@ -85,6 +86,7 @@ var test_abilities = [
 ]
 
 func _ready():
+
 	# Load Abilities
 	for data in test_abilities:
 		var entry = ability_entry_scene.instantiate()

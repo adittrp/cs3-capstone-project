@@ -15,16 +15,23 @@
 script/source = "extends Node2D
 
 @onready var cover_panel = $UI/UILayer/DetailPanel/CoverPanel
+signal show_popup_requested
+
+# Context variable to know where we're coming from
+var return_target: String = \"main_menu\"
 
 func _ready():
 	cover_panel.visible = true  # start covered
 
 func _on_exit_button_pressed() -> void:
-	pass # Replace with function body.
-
-
-func _on_button_pressed() -> void:
-	pass # Replace with function body.
+	
+	if return_target == \"main_menu\":
+		get_tree().change_scene_to_file(\"res://main_menu_folder/main_menu.tscn\")
+	elif return_target == \"in_game\":
+		emit_signal(\"show_popup_requested\")  # <-- emit before freeing
+		queue_free()
+	else:
+		print(\"Unknown return_target: \", return_target)
 "
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_scxlh"]
@@ -48,14 +55,47 @@ bg_color = Color(0, 0, 0, 1)
 [node name="UpgradeScreen" type="Node2D"]
 script = SubResource("GDScript_sbak5")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="UI"]
+custom_minimum_size = Vector2(1920, 1080)
 offset_top = 1.0
 offset_right = 1923.0
 offset_bottom = 1081.0
 texture = ExtResource("1_adbc8")
 expand_mode = 1
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="CoinsPanel" type="PanelContainer" parent="UI"]
+offset_left = 1504.0
+offset_top = 33.0
+offset_right = 1860.0
+offset_bottom = 101.0
+script = ExtResource("7_tjusp")
+
+[node name="CoinIcon" type="Control" parent="UI/CoinsPanel"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/CoinsPanel/CoinIcon"]
+layout_mode = 0
+offset_left = -22.0
+offset_top = -32.0
+offset_right = 119.0
+offset_bottom = 100.0
+texture = ExtResource("7_xbyf2")
+expand_mode = 1
+
+[node name="CoinsLabel" type="Control" parent="UI/CoinsPanel"]
+layout_mode = 2
+
+[node name="CoinDisplay" type="Label" parent="UI/CoinsPanel/CoinsLabel"]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 15.0
+offset_right = 303.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "5,000"
+script = ExtResource("10_3wk1i")
 
 [node name="UILayer" type="Control" parent="UI"]
 layout_mode = 3
@@ -228,34 +268,4 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_n4frt")
 script = ExtResource("6_n4frt")
 
-[node name="CoinsPanel" type="PanelContainer" parent="."]
-offset_left = 1504.0
-offset_top = 33.0
-offset_right = 1860.0
-offset_bottom = 101.0
-script = ExtResource("7_tjusp")
-
-[node name="CoinIcon" type="Control" parent="CoinsPanel"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="CoinsPanel/CoinIcon"]
-layout_mode = 0
-offset_left = -22.0
-offset_top = -32.0
-offset_right = 119.0
-offset_bottom = 100.0
-texture = ExtResource("7_xbyf2")
-expand_mode = 1
-
-[node name="CoinsLabel" type="Control" parent="CoinsPanel"]
-layout_mode = 2
-
-[node name="CoinDisplay" type="Label" parent="CoinsPanel/CoinsLabel"]
-layout_mode = 0
-offset_left = 91.0
-offset_top = 15.0
-offset_right = 303.0
-offset_bottom = 50.0
-theme_override_font_sizes/font_size = 25
-text = "5,000"
-script = ExtResource("10_3wk1i")
+[connection signal="pressed" from="UI/UILayer/ExitButton" to="." method="_on_exit_button_pressed"]

@@ -51,6 +51,8 @@ func _physics_process(delta: float) -> void:
 	if cant_move:
 		return
 	if player:
+		if (player.invincible):
+			return
 		var to_player = player.global_position - global_position
 		if to_player.length() > 20.0:
 			direction = to_player.normalized()

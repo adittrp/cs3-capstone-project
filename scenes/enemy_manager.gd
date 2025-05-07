@@ -7,7 +7,7 @@ var roundSystem = {
 	"Level4": [],
 	"Level5": [["Zombie", 75, 60]]
 }
-var LevelNumber : int = 5
+var LevelNumber : int = 1
 
 @onready var enemy = load("res://scenes/enemy.tscn")
 @onready var player = get_parent().get_node("Player") # Adjust path if needed

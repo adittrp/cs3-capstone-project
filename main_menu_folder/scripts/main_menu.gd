@@ -18,6 +18,11 @@ func _on_start_pressed() -> void:
 
 func _on_options_pressed() -> void:
 	print("Settings pressed...")
+	var upgrade_scene = preload("res://upgrade_screen_folder/upgrade_screen.tscn")
+	var upgrade_instance = upgrade_scene.instantiate()
+
+	# Set where it should return to
+	upgrade_instance.return_target = "main_menu"
 	get_tree().change_scene_to_file("res://upgrade_screen_folder/upgrade_screen.tscn")
 
 func _on_exit_pressed() -> void:
