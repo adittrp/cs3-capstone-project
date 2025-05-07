@@ -103,7 +103,7 @@ func load_data() -> void:
 	hypnosisPowerUpgradeLevel     = save_data.get("hypnosisPowerUpgradeLevel", 0)
 	timeSlowUpgradeLevel          = save_data.get("timeSlowUpgradeLevel", 0)
 	coins                         = save_data.get("coins", 0)
-
+	
 # --- Refresh the mirror dictionary your UI code uses ---
 func update_skill_data() -> void:
 	skillLevels = {
@@ -132,4 +132,4 @@ func reset():
 	dashUpgradeLevel              = 0
 	hypnosisPowerUpgradeLevel     = 0
 	timeSlowUpgradeLevel          = 0
-	coins                         = 0
+	coins                         = 1000000

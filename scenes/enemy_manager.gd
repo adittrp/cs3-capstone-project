@@ -28,7 +28,7 @@ func startRound(level: int):
 		var interval_seconds = enemy_info[2]
 		var number_of_waves = 20
 
-		for wave in range(number_of_waves):
+		for wave in range(number_of_waves - 1):
 			spawn_enemies_around_player(count_per_wave + wave * 3)
 
 			SaveData.CoinValue = level + (0.05 * wave)
@@ -46,7 +46,7 @@ func spawn_enemies_around_player(count: int):
 		var new_enemy = enemy.instantiate()
 		
 		var angle = randf_range(0, TAU)
-		var distance = 1750
+		var distance = 1250
 		var offset = Vector2(cos(angle), sin(angle)) * distance
 		new_enemy.position = player.global_position + offset
 		
