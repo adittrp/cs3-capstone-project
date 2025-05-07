@@ -6,8 +6,7 @@ class_name Enemy
 @onready var player = get_parent().get_parent().get_node("Player")
 
 #var player: Player = null
-var speed: float = randf_range(125, 175)
-var wander_speed: float = randf_range(90, 125)  # Slower speed for wandering
+var speed: float = randf_range(100, 175)
 var direction := Vector2.ZERO
 var max_health = 100
 var health: int = 100
@@ -30,7 +29,7 @@ func shot_at(shotPower):
 	health -= shotPower
 
 	if health <= 0:
-		for i in range(5):
+		for i in range(SaveData.RoundLevel):
 			var coin = coin_scene.instantiate()
 			
 			var offset = Vector2(randf_range(-50, 50), randf_range(-50, 50))

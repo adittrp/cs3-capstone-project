@@ -47,6 +47,7 @@ var skillLevelPrices = {
 
 var CoinValue : int = 1
 var DamageScale : int = 1
+var RoundLevel : int = 1
 
 func _ready():
 	# Give the rest of the tree a chance to initialize
@@ -118,3 +119,17 @@ func update_skill_data() -> void:
 		"Hypnosis Power": hypnosisPowerUpgradeLevel,
 		"Time Slow": timeSlowUpgradeLevel
 	}
+	
+func reset():
+	healthUpgradeLevel            = 0
+	shotPowerUpgradeLevel         = 0
+	moveSpeedUpgradeLevel         = 0
+	shotSpeedUpgradeLevel         = 0
+	armorUpgradeLevel             = 0
+	regenerationUpgradeLevel      = 0
+	magnetUpgradeLevel            = 0
+	coinMultiplierUpgradeLevel    = 0
+	dashUpgradeLevel              = 0
+	hypnosisPowerUpgradeLevel     = 0
+	timeSlowUpgradeLevel          = 0
+	coins                         = 0

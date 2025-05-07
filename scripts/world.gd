@@ -58,12 +58,11 @@ func _update_coin_display() -> void:
 
 
 func _on_menu_button_pressed() -> void:
-	
-		
 	popup_menu_panel.visible = !popup_menu_panel.visible
 	if player:
 		player.invincible = !(player.invincible)
 	#get_tree().paused = not get_tree().paused
+	_update_coin_display() 
 
 
 func _on_leave_level_button_pressed() -> void:
@@ -98,3 +97,4 @@ func _on_settings_button_pressed() -> void:
 func _on_upgrade_closed() -> void:
 	$HUD.visible = true
 	$UI.visible = true
+	
