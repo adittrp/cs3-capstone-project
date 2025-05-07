@@ -5,12 +5,13 @@ extends Control
 @onready var detail_panel = $DetailPanel
 @onready var cover_panel = $DetailPanel/CoverPanel
 @onready var upgrade_button = $DetailPanel/UpgradeButtonWrapper/Button
-@onready var back_button = $ExitButton
+#@onready var back_button = $ExitButton
+
 
 var ability_entry_scene = preload("res://upgrade_screen_folder/ability_entry.tscn")
 var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn") # new
 var selected_thing_name := ""
-
+var return_target: String = "main_menu"
 
 var test_skills = [
 	{
@@ -86,6 +87,12 @@ var test_abilities = [
 ]
 
 func _ready():
+
+	
+	#if return_target == "main_menu":
+		#back_button.pressed.connect(_on_back_to_main_pressed)
+	#else:
+		#back_button.pressed.connect(_on_close_upgrade_popup)
 
 	# Load Abilities
 	for data in test_abilities:
@@ -220,3 +227,8 @@ func calculate_stat_values(upgrade_name: String) -> Dictionary:
 		"current": current,
 		"next": next
 	}
+#func _on_back_to_main_pressed():
+	#get_tree().change_scene_to_file("res://main_menu_folder/main_menu.tscn")
+
+func _on_close_upgrade_popup():
+	queue_free()  # or hide() if you're reusing the instance

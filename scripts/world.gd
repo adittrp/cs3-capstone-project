@@ -6,6 +6,9 @@ extends Node2D
 @onready var popup_menu_panel = $HUD/PopupMenuPanel
 @onready var hud = get_node("World/HUD")
 @onready var ui = get_node("World/UI")
+@onready var timer_label: Label = $UI/TimePanel/Control/Label
+var time_elapsed := 0.0  # in seconds
+
 
 func _ready() -> void:
 	
@@ -28,7 +31,16 @@ func _ready() -> void:
 	await get_tree().create_timer(0.2).timeout
 	_update_coin_display()
 	
-	
+
+func _process(delta: float) -> void:
+	if player and !player.invincible:
+		time_elapsed += delta
+
+	var minutes = int(time_elapsed) / 60
+	var seconds = int(time_elapsed) % 60
+
+	timer_label.text = "%02d:%02d" % [minutes, seconds]
+		
 
 func _on_player_died():
 	print("game over")

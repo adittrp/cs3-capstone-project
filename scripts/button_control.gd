@@ -1,5 +1,6 @@
 extends Control
 
+
 func _ready():
 	for button in get_children():
 		if button is Button:
@@ -19,6 +20,7 @@ func _on_button_unhovered(button):
 
 func _on_button_gui_input(event, button):
 	var icon = button.get_node("TextureRect")
+	print(str(icon) + " icon!")
 	if icon:
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
