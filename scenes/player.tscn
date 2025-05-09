@@ -11,8 +11,8 @@ radius = 29.0
 height = 58.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hqtel"]
-radius = 53.0
-height = 110.0
+radius = 33.0
+height = 74.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 2
