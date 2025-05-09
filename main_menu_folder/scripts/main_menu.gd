@@ -1,32 +1,15 @@
 extends Control
 
-#var bg_music = preload("res://main_menu_folder/audios/المقطع الاصلي للفار الموسيقار _ ساعة متواصلة مع الفأر الموسيقار 4.mp3")
-#
-#func _ready():
-	## Duplicate the stream and enable looping
-	#var music = bg_music.duplicate()
-	#music.loop = true
-	#
-	## Set up and play the looping background music
-	#$AudioStreamPlayer2D.stream = music
-	#$AudioStreamPlayer2D.volume_db = -6  # Optional: reduce if too loud
-	#$AudioStreamPlayer2D.play()
-
+# Called when the Start button is pressed
 func _on_start_pressed() -> void:
 	print("Start pressed...")
 	get_tree().change_scene_to_file("res://scenes/world.tscn")
 
+# Called when the Options/Settings button is pressed
 func _on_options_pressed() -> void:
 	print("Settings pressed...")
-	#var upgrade_scene = preload("res://upgrade_screen_folder/upgrade_screen.tscn")
-	#var upgrade_instance = upgrade_scene.instantiate()
-#
-	## Set where it should return to
-	#upgrade_instance.return_target = "main_menu"
 	get_tree().change_scene_to_file("res://upgrade_screen_folder/upgrade_screen.tscn")
 
+# Called when the Exit button is pressed
 func _on_exit_pressed() -> void:
 	get_tree().quit()
-
-
-	

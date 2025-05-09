@@ -5,14 +5,17 @@ extends Control
 @onready var detail_panel = $DetailPanel
 @onready var cover_panel = $DetailPanel/CoverPanel
 @onready var upgrade_button = $DetailPanel/UpgradeButtonWrapper/Button
-#@onready var back_button = $ExitButton
 
 
+# Preload scenes for ability and skill entries
 var ability_entry_scene = preload("res://upgrade_screen_folder/ability_entry.tscn")
-var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn") # new
+var skill_entry_scene = preload("res://upgrade_screen_folder/skills_entry.tscn")
+
+# Initialize selected name and return target
 var selected_thing_name := ""
 var return_target: String = "main_menu"
 
+# Sample skills data
 var test_skills = [
 	{
 		"name": "Shoot Power",
@@ -56,6 +59,7 @@ var test_skills = [
 	}
 ]
 
+# Sample abilities data
 var test_abilities = [
 	{
 		"name": "Dash",
@@ -88,47 +92,45 @@ var test_abilities = [
 
 func _ready():
 
-	
-	#if return_target == "main_menu":
-		#back_button.pressed.connect(_on_back_to_main_pressed)
-	#else:
-		#back_button.pressed.connect(_on_close_upgrade_popup)
-
-	# Load Abilities
+	# Load Abilities into the UI
 	for data in test_abilities:
 		var entry = ability_entry_scene.instantiate()
 		entry.set_data(data)
 		entry.ability_selected.connect(_on_ability_selected)
 		ability_list.add_child(entry)
 
-	# Load Skills
+	# Load Skills into the UI
 	for data in test_skills:
 		var entry = skill_entry_scene.instantiate()
 		entry.set_data(data)
 		entry.skill_selected.connect(_on_skill_selected)
 		skill_list.add_child(entry)
 		
-	# connect button press
+	# Connect the upgrade button press event
 	upgrade_button.pressed.connect(button_pressed)
 
+# Handle the selection of an ability
 func _on_ability_selected(data: Dictionary):
 	selected_thing_name = data.name
 	_update_detail_panel(data)
 	fade_away_cover()
 
+# Handle the selection of a skill
 func _on_skill_selected(data: Dictionary):
 	selected_thing_name = data.name
 	_update_detail_panel(data)
 	fade_away_cover()
 
+# Update the detail panel based on selected data
 func _update_detail_panel(data: Dictionary):
 	var Name = data.name
 	
-	SaveData.save_game()
+	SaveData.save_game()  # Save game data
 	var level = SaveData.skillLevels[Name]
 	var current_and_next_stat_calculation_dict = calculate_stat_values(Name)
 	var current_cost = SaveData.skillLevelPrices[Name][0] * (SaveData.skillLevelPrices[Name][1] ** level)
 	
+	# Set the displayed data in the UI
 	$DetailPanel/IconWrapper/Icon.texture = data.icon
 	$DetailPanel/LabelLevelWrapper/LevelLabel.text = "Level: %d" % level
 	$DetailPanel/CurrentStatWrapper/Label.text = "Current: %s" % str(float(current_and_next_stat_calculation_dict["current"]))
@@ -137,13 +139,14 @@ func _update_detail_panel(data: Dictionary):
 	$DetailPanel/DescriptionWrapper/TitleLabel.text = data.name
 	$DetailPanel/DescriptionWrapper/SmallDescriptionLabel.text = data.desc
 
+# Handle button press to upgrade the selected ability/skill
 func button_pressed():
 	if selected_thing_name == "":
-		print("gurt")
 		return
 	var level = SaveData.skillLevels.get(selected_thing_name, 0)
 	var cost = SaveData.skillLevelPrices[selected_thing_name][0] * (SaveData.skillLevelPrices[selected_thing_name][1] ** level)
 	
+	# Check if there are enough coins for the upgrade
 	if SaveData.coins >= cost:
 		# Deduct coins and level up
 		SaveData.coins -= cost
@@ -163,13 +166,13 @@ func button_pressed():
 		# Save updated data
 		await SaveData.save_game()
 
-		# Update detail panel with new stats
+		# Update the detail panel with new stats
 		var updated_data = test_skills.filter(func(d): return d.name == selected_thing_name)[0]
 		_update_detail_panel(updated_data)
 	else:
 		print("Not enough coins!")
-	
 
+# Fade out the cover panel
 func fade_away_cover():
 	var tween = create_tween()
 
@@ -183,6 +186,7 @@ func fade_away_cover():
 	# After the fade is done, hide the panel
 	tween.finished.connect(func(): cover_panel.visible = false)
 
+# Calculate the current and next stat values for a specific upgrade
 func calculate_stat_values(upgrade_name: String) -> Dictionary:
 	var current := 0.0
 	var next := 0.0
@@ -227,8 +231,6 @@ func calculate_stat_values(upgrade_name: String) -> Dictionary:
 		"current": current,
 		"next": next
 	}
-#func _on_back_to_main_pressed():
-	#get_tree().change_scene_to_file("res://main_menu_folder/main_menu.tscn")
 
 func _on_close_upgrade_popup():
-	queue_free()  # or hide() if you're reusing the instance
+	queue_free()

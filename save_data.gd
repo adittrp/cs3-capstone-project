@@ -1,6 +1,6 @@
 extends Node
 
-# --- Upgrade levels ---
+# Upgrade levels
 var healthUpgradeLevel: int = 0
 var shotPowerUpgradeLevel: int = 0
 var moveSpeedUpgradeLevel: int = 0
@@ -9,14 +9,16 @@ var armorUpgradeLevel: int = 0
 var regenerationUpgradeLevel: int = 0
 var magnetUpgradeLevel: int = 0
 var coinMultiplierUpgradeLevel: int = 0
+
+# Have not added yet
 var dashUpgradeLevel: int = 0
 var hypnosisPowerUpgradeLevel: int = 0
 var timeSlowUpgradeLevel: int = 0
 
-# --- Currency ---
+# Currency
 var coins: int = 0
 
-# --- Mirror for UI code ---
+# Name to variable
 var skillLevels = {
 	"Max Health Increase": healthUpgradeLevel,
 	"Shoot Power": shotPowerUpgradeLevel,
@@ -31,7 +33,8 @@ var skillLevels = {
 	"Time Slow": timeSlowUpgradeLevel
 }
 
-var skillLevelPrices = {
+# Skill upgrade prices [base value, exponential value]
+var skillLevelPrices = { 
 	"Max Health Increase": [20, 1.1],
 	"Shoot Power": [20, 1.1],
 	"Move Speed": [15, 1.5],
@@ -45,20 +48,22 @@ var skillLevelPrices = {
 	"Time Slow": [0, 0]
 }
 
+# Coin value multiplier
 var CoinValue : int = 1
+# Damage scaling factor
 var DamageScale : int = 1
+# Current round level
 var RoundLevel : int = 1
 
 func _ready():
-	# Give the rest of the tree a chance to initialize
+	# Initialize game state, load data, and set values
 	await get_tree().create_timer(0.3).timeout
 	load_data()
 	update_skill_data()
-	#coins += 1000000
 
-# --- Save current state to disk ---
+# Save current state to disk
 func save_game() -> void:
-	# Build dictionary with *exact* keys that load_data expects:
+	# Build dictionary with exact keys that load_data expects:
 	var save_data = {
 		"healthUpgradeLevel": healthUpgradeLevel,
 		"shotPowerUpgradeLevel": shotPowerUpgradeLevel,
@@ -75,36 +80,40 @@ func save_game() -> void:
 	}
 
 	var save_file = FileAccess.open("user://upgradeData.save", FileAccess.WRITE)
+	
+	# Save game data to file
 	save_file.store_var(save_data)
 	save_file.close()
 
-	# Now that disk is updated, just refresh our in-memory mirror:
+	# Now that disk is updated, update the skills
 	update_skill_data()
 
-# --- Load on disk state back into memory ---
+# Load saved game state from disk
 func load_data() -> void:
 	if not FileAccess.file_exists("user://upgradeData.save"):
-		return  # nothing to load yet
+		return
 
 	var save_file = FileAccess.open("user://upgradeData.save", FileAccess.READ)
+	
+	# Get saved data
 	var save_data = save_file.get_var()
 	save_file.close()
 
-	# Pull out each value by the exact matching key:
-	healthUpgradeLevel            = save_data.get("healthUpgradeLevel", 0)
-	shotPowerUpgradeLevel         = save_data.get("shotPowerUpgradeLevel", 0)
-	moveSpeedUpgradeLevel          = save_data.get("moveSpeedUpgradeLevel", 0)
-	shotSpeedUpgradeLevel         = save_data.get("shotSpeedUpgradeLevel", 0)
-	armorUpgradeLevel             = save_data.get("armorUpgradeLevel", 0)
-	regenerationUpgradeLevel      = save_data.get("regenerationUpgradeLevel", 0)
-	magnetUpgradeLevel            = save_data.get("magnetUpgradeLevel", 0)
-	coinMultiplierUpgradeLevel    = save_data.get("coinMultiplierUpgradeLevel", 0)
-	dashUpgradeLevel              = save_data.get("dashUpgradeLevel", 0)
-	hypnosisPowerUpgradeLevel     = save_data.get("hypnosisPowerUpgradeLevel", 0)
-	timeSlowUpgradeLevel          = save_data.get("timeSlowUpgradeLevel", 0)
-	coins                         = save_data.get("coins", 0)
-	
-# --- Refresh the mirror dictionary your UI code uses ---
+	# Extract values from saved data and assign them
+	healthUpgradeLevel = save_data.get("healthUpgradeLevel", 0)
+	shotPowerUpgradeLevel = save_data.get("shotPowerUpgradeLevel", 0)
+	moveSpeedUpgradeLevel = save_data.get("moveSpeedUpgradeLevel", 0)
+	shotSpeedUpgradeLevel = save_data.get("shotSpeedUpgradeLevel", 0)
+	armorUpgradeLevel = save_data.get("armorUpgradeLevel", 0)
+	regenerationUpgradeLevel = save_data.get("regenerationUpgradeLevel", 0)
+	magnetUpgradeLevel = save_data.get("magnetUpgradeLevel", 0)
+	coinMultiplierUpgradeLevel = save_data.get("coinMultiplierUpgradeLevel", 0)
+	dashUpgradeLevel = save_data.get("dashUpgradeLevel", 0)
+	hypnosisPowerUpgradeLevel = save_data.get("hypnosisPowerUpgradeLevel", 0)
+	timeSlowUpgradeLevel = save_data.get("timeSlowUpgradeLevel", 0)
+	coins = save_data.get("coins", 0)
+
+# Refresh the mirror dictionary used by the UI
 func update_skill_data() -> void:
 	skillLevels = {
 		"Max Health Increase": healthUpgradeLevel,
@@ -119,17 +128,18 @@ func update_skill_data() -> void:
 		"Hypnosis Power": hypnosisPowerUpgradeLevel,
 		"Time Slow": timeSlowUpgradeLevel
 	}
-	
+
+# Reset all upgrades and set coins to a high number for testing
 func reset():
-	healthUpgradeLevel            = 0
-	shotPowerUpgradeLevel         = 0
-	moveSpeedUpgradeLevel         = 0
-	shotSpeedUpgradeLevel         = 0
-	armorUpgradeLevel             = 0
-	regenerationUpgradeLevel      = 0
-	magnetUpgradeLevel            = 0
-	coinMultiplierUpgradeLevel    = 0
-	dashUpgradeLevel              = 0
-	hypnosisPowerUpgradeLevel     = 0
-	timeSlowUpgradeLevel          = 0
-	coins                         = 1000000
+	healthUpgradeLevel = 0
+	shotPowerUpgradeLevel = 0
+	moveSpeedUpgradeLevel = 0
+	shotSpeedUpgradeLevel = 0
+	armorUpgradeLevel = 0
+	regenerationUpgradeLevel = 0
+	magnetUpgradeLevel = 0
+	coinMultiplierUpgradeLevel = 0
+	dashUpgradeLevel = 0
+	hypnosisPowerUpgradeLevel = 0
+	timeSlowUpgradeLevel = 0
+	coins = 1000000

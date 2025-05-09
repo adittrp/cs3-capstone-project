@@ -1,20 +1,23 @@
 extends CharacterBody2D
 class_name Enemy
 
+# Load coin scene to drop on death
 @onready var coin_scene = load("res://scenes/coin.tscn")
+
+# References to game objects in the scene
 @onready var coinManager = get_parent().get_parent().get_node("CoinManager")
 @onready var player = get_parent().get_parent().get_node("Player")
 
-#var player: Player = null
+# Movement and health settings
 var speed: float = randf_range(100, 175)
 var direction := Vector2.ZERO
 var max_health = 100
 var health: int = 100
 var cant_move: bool = false
 var wander_timer := 0.0
+
 @onready var health_bar = $HealthBar/ProgressBar
 
-# Cardinal directions (no diagonals)
 var directions := [
 	Vector2.LEFT,
 	Vector2.RIGHT,
@@ -23,36 +26,48 @@ var directions := [
 ]
 
 func _ready() -> void:
+	# Initialize health bar value
 	update_health_bar()
-	
+
 func shot_at(shotPower):
+	# Subtract damage from health
 	health -= shotPower
 
 	if health <= 0:
+		# Drop coins based on round level
 		for i in range(SaveData.RoundLevel):
 			var coin = coin_scene.instantiate()
 			
+			# Randomize coin spawn position slightly
 			var offset = Vector2(randf_range(-50, 50), randf_range(-50, 50))
 			var spawn_position = global_position + offset
 			
 			coin.position = coinManager.to_local(spawn_position)
 			coinManager.add_child(coin)
 		
+		# Remove enemy from scene
 		queue_free()
 	else:
+		# Update health bar after taking damage
 		update_health_bar()
-		
+
 func _process(delta: float) -> void:
+	# Turn toward movement direction if moving
 	if direction != Vector2.ZERO:
 		look_at(global_position + direction * 50)
 
 func _physics_process(delta: float) -> void:
 	if cant_move:
 		return
+
 	if player:
-		if (player.invincible):
+		# Don’t chase the player if they're invincible
+		if player.invincible:
 			return
+
 		var to_player = player.global_position - global_position
+
+		# Chase player if not too close
 		if to_player.length() > 20.0:
 			direction = to_player.normalized()
 			velocity = direction * speed
@@ -63,12 +78,12 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 
 func stopped():  
+	# Temporarily freeze enemy movement (used for hitstun or effects)
 	cant_move = true
 	await get_tree().create_timer(0.3).timeout
 	cant_move = false
 
 func update_health_bar():
+	# Keep health bar synced with current health
 	health_bar.value = health
 	health_bar.max_value = max_health
-
-	
