@@ -1,8 +1,11 @@
 extends Node2D
 
+var RoundDone : bool = false
+
+
 func get_round_data(level: int) -> Array:
 	# Define enemy count and interval dynamically based on the level
-	var base_enemy_count = 10 + (level - 1) * 15
+	var base_enemy_count = 5 + (level - 1) * 20
 	var interval_seconds = 30
 	
 	# [EnemyType, Count, Interval]
@@ -18,6 +21,13 @@ func _ready():
 	await get_tree().create_timer(1).timeout
 	startRound(LevelNumber)
 	SaveData.RoundLevel = LevelNumber
+	
+func _process(_delta: float) -> void:
+	if RoundDone and get_parent().get_child_count() == 0:
+		LevelNumber += 1
+		SaveData.RoundLevel = LevelNumber
+		startRound(LevelNumber)
+		RoundDone = false
 
 func startRound(level: int):
 	await get_tree().create_timer(1).timeout
@@ -31,18 +41,16 @@ func startRound(level: int):
 
 		for wave in range(number_of_waves - 1):
 			# Spawn more enemies each wave to increase difficulty
-			spawn_enemies_around_player(count_per_wave + wave * 3)
+			spawn_enemies_around_player(count_per_wave + wave)
 
 			# Dynamically adjust difficulty scaling
-			SaveData.CoinValue = level + (0.05 * wave)
-			SaveData.DamageScale = level + (0.05 * wave)
+			SaveData.CoinValue = level + float(0.05 * wave)
+			SaveData.DamageScale = level + float(0.05 * wave)
 
 			await get_tree().create_timer(interval_seconds).timeout
 
 	# After completing the round, move to the next one
-	LevelNumber += 1
-	SaveData.RoundLevel = LevelNumber
-	startRound(LevelNumber)
+	RoundDone = true
 
 func spawn_enemies_around_player(count: int):
 	for i in range(count):

@@ -51,12 +51,12 @@ func shot_at(shotPower):
 		# Update health bar after taking damage
 		update_health_bar()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Turn toward movement direction if moving
 	if direction != Vector2.ZERO:
 		look_at(global_position + direction * 50)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if cant_move:
 		return
 

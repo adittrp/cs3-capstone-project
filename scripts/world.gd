@@ -5,8 +5,8 @@ extends Node2D
 @onready var main_camera = $MainCamera
 @onready var coin_display: Label = $UI/CoinsPanel/CoinsLabel/CoinDisplay
 @onready var popup_menu_panel = $HUD/PopupMenuPanel
-@onready var hud = get_node("World/HUD")
-@onready var ui = get_node("World/UI")
+@onready var hud = get_node("HUD")
+@onready var ui = get_node("UI")
 @onready var timer_label: Label = $UI/TimePanel/Control/Label
 var time_elapsed := 0.0
 
@@ -41,7 +41,7 @@ func _process(delta: float) -> void:
 	# Update elapsed time and display it
 	if player and !player.invincible:
 		time_elapsed += delta
-	var minutes = int(time_elapsed) / 60
+	var minutes = time_elapsed / 60
 	var seconds = int(time_elapsed) % 60
 	timer_label.text = "%02d:%02d" % [minutes, seconds]
 

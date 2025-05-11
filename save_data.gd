@@ -49,9 +49,9 @@ var skillLevelPrices = {
 }
 
 # Coin value multiplier
-var CoinValue : int = 1
+var CoinValue : float = 1
 # Damage scaling factor
-var DamageScale : int = 1
+var DamageScale : float = 1
 # Current round level
 var RoundLevel : int = 1
 

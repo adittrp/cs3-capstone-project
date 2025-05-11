@@ -164,7 +164,7 @@ func button_pressed():
 			"Coin Multiplier": SaveData.coinMultiplierUpgradeLevel += 1
 			_: print("not supported yet")
 		# Save updated data
-		await SaveData.save_game()
+		SaveData.save_game()
 
 		# Update the detail panel with new stats
 		var updated_data = test_skills.filter(func(d): return d.name == selected_thing_name)[0]
