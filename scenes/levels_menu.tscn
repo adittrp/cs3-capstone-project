@@ -1,8 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://caxgxsllvf6o7"]
+[gd_scene load_steps=9 format=3 uid="uid://caxgxsllvf6o7"]
 
 [ext_resource type="Script" uid="uid://bj6iso0uxxo5y" path="res://scripts/levels_menu.gd" id="1_r3otx"]
 [ext_resource type="Texture2D" uid="uid://bh8mlwymfrbeb" path="res://assets/newupgrademenubackground.png" id="2_grwcp"]
 [ext_resource type="Texture2D" uid="uid://t886of4uncmn" path="res://assets/fancy_ahh_panel.png" id="3_5vuwt"]
+[ext_resource type="Script" uid="uid://dukmcm7byat27" path="res://scripts/button.gd" id="4_250ps"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5vuwt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_250ps"]
+bg_color = Color(0.509804, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gkdn"]
+bg_color = Color(0.470588, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xc0ai"]
+bg_color = Color(0.592448, 2.20198e-06, 4.33177e-07, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="LevelsMenu" type="Node2D"]
 script = ExtResource("1_r3otx")
@@ -93,3 +117,18 @@ offset_top = 44.0
 offset_right = 208.0
 offset_bottom = 94.0
 text = "▶"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 60.0
+offset_top = 40.0
+offset_right = 168.0
+offset_bottom = 134.0
+theme_override_font_sizes/font_size = 70
+theme_override_styles/focus = SubResource("StyleBoxEmpty_5vuwt")
+theme_override_styles/hover = SubResource("StyleBoxFlat_250ps")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8gkdn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_xc0ai")
+text = "X"
+script = ExtResource("4_250ps")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
