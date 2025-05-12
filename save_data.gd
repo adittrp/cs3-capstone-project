@@ -18,6 +18,9 @@ var timeSlowUpgradeLevel: int = 0
 # Currency
 var coins: int = 0
 
+# Other
+var MaxUnlockedLevel : int = 1
+
 # Name to variable
 var skillLevels = {
 	"Max Health Increase": healthUpgradeLevel,
@@ -76,7 +79,8 @@ func save_game() -> void:
 		"dashUpgradeLevel": dashUpgradeLevel,
 		"hypnosisPowerUpgradeLevel": hypnosisPowerUpgradeLevel,
 		"timeSlowUpgradeLevel": timeSlowUpgradeLevel,
-		"coins": coins
+		"coins": coins,
+		"MaxUnlockedLevel": MaxUnlockedLevel
 	}
 
 	var save_file = FileAccess.open("user://upgradeData.save", FileAccess.WRITE)
@@ -112,6 +116,7 @@ func load_data() -> void:
 	hypnosisPowerUpgradeLevel = save_data.get("hypnosisPowerUpgradeLevel", 0)
 	timeSlowUpgradeLevel = save_data.get("timeSlowUpgradeLevel", 0)
 	coins = save_data.get("coins", 0)
+	MaxUnlockedLevel = save_data.get("MaxUnlockedLevel", 1)
 
 # Refresh the mirror dictionary used by the UI
 func update_skill_data() -> void:

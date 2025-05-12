@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://caxgxsllvf6o7"]
+
+[ext_resource type="Script" uid="uid://bj6iso0uxxo5y" path="res://scripts/levels_menu.gd" id="1_r3otx"]
+[ext_resource type="Texture2D" uid="uid://bh8mlwymfrbeb" path="res://assets/newupgrademenubackground.png" id="2_grwcp"]
+[ext_resource type="Texture2D" uid="uid://t886of4uncmn" path="res://assets/fancy_ahh_panel.png" id="3_5vuwt"]
+
+[node name="LevelsMenu" type="Node2D"]
+script = ExtResource("1_r3otx")
+
+[node name="BackgroundImage" type="TextureRect" parent="."]
+offset_right = 1923.0
+offset_bottom = 1079.0
+texture = ExtResource("2_grwcp")
+
+[node name="FancyAhh" type="TextureRect" parent="."]
+offset_left = 35.0
+offset_top = -130.0
+offset_right = 1461.0
+offset_bottom = 1296.0
+scale = Vector2(1.2696, 0.948643)
+texture = ExtResource("3_5vuwt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 1924.0
+offset_bottom = 1087.0
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Control"]
+layout_mode = 2
+offset_left = 799.0
+offset_top = 45.0
+offset_right = 1143.0
+offset_bottom = 129.0
+theme_override_font_sizes/font_size = 61
+text = "Select Level"
+
+[node name="Control2" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/Control2"]
+layout_mode = 0
+offset_left = 287.0
+offset_top = 225.0
+offset_right = 1717.0
+offset_bottom = 895.0
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 40
+columns = 5
+
+[node name="Control3" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Control3"]
+layout_mode = 2
+offset_left = 67.0
+offset_top = 946.0
+offset_right = 1865.0
+offset_bottom = 1044.0
+alignment = 1
+
+[node name="Control" type="Control" parent="VBoxContainer/Control3/HBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/Control3/HBoxContainer/Control"]
+layout_mode = 2
+offset_left = -204.0
+offset_top = 47.0
+offset_right = -116.0
+offset_bottom = 95.0
+text = "◀"
+
+[node name="Control2" type="Control" parent="VBoxContainer/Control3/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Control3/HBoxContainer/Control2"]
+layout_mode = 2
+offset_left = -97.0
+offset_top = 40.0
+offset_right = 92.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 41
+text = "Page x / 5"
+
+[node name="Control3" type="Control" parent="VBoxContainer/Control3/HBoxContainer"]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="VBoxContainer/Control3/HBoxContainer/Control3"]
+layout_mode = 2
+offset_left = 121.0
+offset_top = 44.0
+offset_right = 208.0
+offset_bottom = 94.0
+text = "▶"

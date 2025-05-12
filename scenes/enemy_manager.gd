@@ -26,6 +26,10 @@ func _process(_delta: float) -> void:
 	if RoundDone and get_parent().get_child_count() == 0:
 		LevelNumber += 1
 		SaveData.RoundLevel = LevelNumber
+		
+		if LevelNumber > SaveData.MaxUnlockedLevel:
+			SaveData.MaxUnlockedLevel = LevelNumber
+		
 		startRound(LevelNumber)
 		RoundDone = false
 

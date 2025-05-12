@@ -14,7 +14,7 @@ var time_elapsed := 0.0
 func _ready() -> void:
 	# Hide the popup menu initially
 	popup_menu_panel.visible = false
-	
+	#print("level: " + str(SaveData.RoundLevel))
 	# Unpause the game tree
 	get_tree().paused = false
 	
