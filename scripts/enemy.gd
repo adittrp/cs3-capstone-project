@@ -106,6 +106,7 @@ var health     := max_health
 var speed      := randf_range(100, 175)
 var direction  := Vector2.RIGHT
 var cant_move  := false   
+var dead := false
 
 # --- Steering Params ---
 const ATTRACT_WEIGHT    := 2.0
@@ -120,8 +121,9 @@ func _ready() -> void:
 
 func shot_at(shotPower: int) -> void:
 	health -= shotPower
-	if health <= 0:
+	if health <= 0 and !dead:
 		_drop_coins()
+		dead = true
 		queue_free()
 	else:
 		update_health_bar()
