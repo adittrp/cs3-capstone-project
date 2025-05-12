@@ -16,6 +16,8 @@ signal died
 
 var _step_timer: float = 0.0
 
+var gun_selected: String = "Shotgun"
+
 # Core player values
 var curHealth: float
 var invulnerable: bool = false
@@ -102,16 +104,35 @@ func regenHealth():
 
 func shoot():
 	# Spawn and shoot a bullet in mouse direction
-	var bullet = bullet_scene.instantiate()
-	var shoot_direction = (get_global_mouse_position() - global_position).normalized()
-	var spawn_offset = shoot_direction * 30
+	if gun_selected == "Pistol":
+		var bullet = bullet_scene.instantiate()
+		var shoot_direction = (get_global_mouse_position() - global_position).normalized()
+		var spawn_offset = shoot_direction * 30
 
-	bullet.global_position = global_position + spawn_offset
-	bullet.direction = shoot_direction
-	bullet.rotation = shoot_direction.angle()
-	bullet.shotPower = shotPower
+		bullet.global_position = global_position + spawn_offset
+		bullet.direction = shoot_direction
+		bullet.rotation = shoot_direction.angle()
+		bullet.shotPower = shotPower
 
-	get_tree().current_scene.add_child(bullet)
+		get_tree().current_scene.add_child(bullet)
+		bullet.bullet_lifetime(2.0)
+	elif gun_selected == "Shotgun":
+		var randCount = randi_range(3, 5)
+		var base_direction = (get_global_mouse_position() - global_position).normalized()
+		
+		for i in range(randCount):
+			var bullet = bullet_scene.instantiate()
+			var spread = randf_range(-15 + (30/randCount) * i, -15 + (30/randCount) * (i + 1))
+			var spread_direction = base_direction.rotated(deg_to_rad(spread))
+			var spawn_offset = spread_direction * 10
+
+			bullet.global_position = global_position + spawn_offset
+			bullet.direction = spread_direction
+			bullet.rotation = spread_direction.angle()
+			bullet.shotPower = shotPower/4
+
+			get_tree().current_scene.add_child(bullet)
+			bullet.bullet_lifetime(randf_range(0.1, 0.2))
 
 func _physics_process(delta):
 	if not invincible:

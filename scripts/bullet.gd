@@ -1,7 +1,7 @@
 extends Area2D
 
 # Projectile speed
-@export var speed := 3250.0
+@export var speed := 4500.0
 # Amount of damage this projectile deals
 var shotPower: int
 
@@ -12,10 +12,6 @@ func _physics_process(delta):
 	# Move the projectile in the specified direction every frame
 	position += direction * speed * delta
 
-func _ready():
-	# Wait for 2 seconds before removing the projectile (timeout if it doesn't hit anything)
-	await get_tree().create_timer(2.0).timeout
-	queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
 	# Remove the projectile when it hits something
@@ -24,3 +20,7 @@ func _on_body_entered(body: Node2D) -> void:
 	# If the object hit is an enemy, apply damage
 	if body.is_in_group("Enemies"):
 		body.shot_at(shotPower)
+		
+func bullet_lifetime(time: float):
+	await get_tree().create_timer(time).timeout
+	queue_free()
