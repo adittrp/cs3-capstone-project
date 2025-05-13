@@ -8,22 +8,16 @@ signal died
 @onready var secondaryCollider = $CollisionShape2D
 
 # Configurable stat intervals
-
-# Delay between footstep sounds
 @export var step_interval: float = 0.4
-# How often contact damage ticks
 @export var contact_damage_interval: float = 0.1
 
 var _step_timer: float = 0.0
-
 var gun_selected: String = "Shotgun"
 
 # Core player values
 var curHealth: float
 var invulnerable: bool = false
 var knockback_velocity: Vector2 = Vector2.ZERO
-
-# Enemies currently touching the player the player
 var enemies_inside := []
 
 # Upgradable stats
@@ -40,50 +34,62 @@ var bullet_scene = preload("res://scenes/bullet.tscn")
 var canShoot = true
 var invincible = false
 
+# ammo feature + reload variables
+var pistol_ammo: int = 20
+var pistol_max_ammo: int = 20
+var shotgun_ammo: int = 13
+var shotgun_max_ammo: int = 13
+var is_reloading: bool = false
+@onready var reload_sound = preload("res://assets/gunreload.mp3")
+
+
+func _input(event):
+	
+	
+	
+	
+	if event is InputEventKey and event.pressed and not event.echo:
+		match event.keycode:
+			KEY_1:
+				gun_selected = "Shotgun"
+			KEY_2:
+				gun_selected = "Pistol"
+			KEY_R:
+				if not is_reloading:
+					reload_weapon()
+
 func _ready() -> void:
 	await get_tree().create_timer(0.1).timeout
 	SaveData.load_data()
 
-	# Scale stats from upgrades
 	maxHealth = 100 + (25 * SaveData.healthUpgradeLevel)
 	curHealth = maxHealth
-
 	update_health_ui()
-	
-	# Start health regeneration loop
 	regenHealth()
-	
-	# Start contact damage handling
 	contact_damage_loop()
 
 func _process(delta):
-	# Continuously update stats
 	maxHealth = 100 + (25 * SaveData.healthUpgradeLevel)
-	shotPower = int(20 * (1 + float(SaveData.shotPowerUpgradeLevel)/3))
+	shotPower = int(20 * (1 + float(SaveData.shotPowerUpgradeLevel) / 3))
 	movSpeed = 500 + (50 * float(SaveData.moveSpeedUpgradeLevel))
 	shotSpeed = 1.0 - (0.1 * float(SaveData.shotSpeedUpgradeLevel))
 	if shotSpeed <= 0.2:
-		shotSpeed = 0.3  # Clamp lower bound
-
+		shotSpeed = 0.3
 	armor = 1 + (0.25 * float(SaveData.armorUpgradeLevel))
 	regeneration = 0.1 + (0.05 * float(SaveData.regenerationUpgradeLevel))
 
-	# Face the mouse cursor
 	look_at(get_global_mouse_position())
 
-	# Debug exit
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 
-	# Firing logic
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and canShoot and !invincible:
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and canShoot and not invincible and not is_reloading and has_ammo():
 		shoot()
 		$GunShot.play()
 		canShoot = false
 		await get_tree().create_timer(shotSpeed).timeout
 		canShoot = true
 
-	# Footstep sound timer
 	var is_moving := velocity.length() > 0.1
 	if is_moving:
 		_step_timer += delta
@@ -94,69 +100,64 @@ func _process(delta):
 		_step_timer = step_interval
 
 func regenHealth():
-	# Loop to regenerate health over time
 	await get_tree().create_timer(1).timeout
 	if curHealth < maxHealth:
 		curHealth += regeneration
 		curHealth = min(curHealth, maxHealth)
 	update_health_ui()
-	regenHealth()  # Recurse to keep loop going
+	regenHealth()
 
 func shoot():
-	# Spawn and shoot a bullet in mouse direction
+	
+	if gun_selected == "Pistol":
+		if pistol_ammo <= 0: return 
+		pistol_ammo -= 1
+	elif gun_selected == "Shotgun":
+		if shotgun_ammo <= 0: return 
+		shotgun_ammo -= 1
+	
+	
 	if gun_selected == "Pistol":
 		var bullet = bullet_scene.instantiate()
-		var shoot_direction = (get_global_mouse_position() - global_position).normalized()
-		var spawn_offset = shoot_direction * 30
-
-		bullet.global_position = global_position + spawn_offset
-		bullet.direction = shoot_direction
-		bullet.rotation = shoot_direction.angle()
+		var dir = (get_global_mouse_position() - global_position).normalized()
+		bullet.global_position = global_position + dir * 30
+		bullet.direction = dir
+		bullet.rotation = dir.angle()
 		bullet.shotPower = shotPower
-
 		get_tree().current_scene.add_child(bullet)
 		bullet.bullet_lifetime(2.0)
 	elif gun_selected == "Shotgun":
 		var randCount = randi_range(3, 5)
-		var base_direction = (get_global_mouse_position() - global_position).normalized()
-		
+		var base = (get_global_mouse_position() - global_position).normalized()
 		for i in range(randCount):
 			var bullet = bullet_scene.instantiate()
-			var spread = randf_range(-15 + (30/randCount) * i, -15 + (30/randCount) * (i + 1))
-			var spread_direction = base_direction.rotated(deg_to_rad(spread))
-			var spawn_offset = spread_direction * 10
-
-			bullet.global_position = global_position + spawn_offset
-			bullet.direction = spread_direction
-			bullet.rotation = spread_direction.angle()
-			bullet.shotPower = shotPower/4
-
+			var spread = randf_range(-15 + (30/randCount)*i,
+									  -15 + (30/randCount)*(i+1))
+			var dir2 = base.rotated(deg_to_rad(spread))
+			bullet.global_position = global_position + dir2 * 10
+			bullet.direction = dir2
+			bullet.rotation = dir2.angle()
+			bullet.shotPower = shotPower / 4
 			get_tree().current_scene.add_child(bullet)
 			bullet.bullet_lifetime(randf_range(0.1, 0.2))
 
 func _physics_process(delta):
 	if not invincible:
-		var direction := Vector2.ZERO
-		if !invulnerable:
+		var dir := Vector2.ZERO
+		if not invulnerable:
 			if Input.is_action_pressed("move_up"):
-				direction.y -= 1
+				dir.y -= 1
 			if Input.is_action_pressed("move_down"):
-				direction.y += 1
+				dir.y += 1
 			if Input.is_action_pressed("move_left"):
-				direction.x -= 1
+				dir.x -= 1
 			if Input.is_action_pressed("move_right"):
-				direction.x += 1
-
-		direction = direction.normalized()
-		var player_velocity = direction * movSpeed
-		velocity = player_velocity + knockback_velocity
+				dir.x += 1
+		dir = dir.normalized()
+		velocity = dir * movSpeed + knockback_velocity
 		move_and_slide()
-
-		# Gradually reduce knockback over time
-		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 1000 * delta)
-
-# ───────────────────────────────────────────────────────────────
-# Contact-based damage system (enemies inside hitbox)
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO,
+															 1000 * delta)
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Enemy and body not in enemies_inside:
@@ -169,38 +170,61 @@ func _on_hitbox_body_exited(body: Node2D) -> void:
 func contact_damage_loop() -> void:
 	while true:
 		await get_tree().create_timer(contact_damage_interval).timeout
-
-		if enemies_inside.size() > 0 and !invulnerable and !invincible:
-			# Damage calculation scales with round and is reduced by armor
+		if enemies_inside.size() > 0 and not invulnerable and not invincible:
 			curHealth -= (20 * SaveData.DamageScale) / armor
 			curHealth = max(curHealth, 0)
 			update_health_ui()
 
-			# Temporary invulnerability and knockback
 			invulnerable = true
 			hitbox.disabled = true
 			secondaryCollider.disabled = true
 
 			var first_enemy = enemies_inside[0]
-			var knockback_dir = (global_position - first_enemy.global_position).normalized()
-			knockback_velocity = knockback_dir * 600
+			knockback_velocity = (global_position
+								  - first_enemy.global_position).normalized() * 600
 
-			# Check for death
 			if curHealth <= 0:
 				died.emit()
 				queue_free()
 
-			# Invulnerability timer
 			await get_tree().create_timer(0.1).timeout
 			invulnerable = false
 			hitbox.disabled = false
 			secondaryCollider.disabled = false
 
-# ───────────────────────────────────────────────────────────────
-
 func update_health_ui():
-	# Updates both the health bar and text label
-	var health_bar = get_node("/root/World/UI/HealthBar")
-	var health_label = get_node("/root/World/UI/HealthLabel")
-	health_bar.value = curHealth / maxHealth * 100
-	health_label.text = "%.0f/%d HP" % [curHealth, maxHealth]
+	var bar = get_node("/root/World/UI/HealthBar")
+	var label = get_node("/root/World/UI/HealthLabel")
+	bar.value = curHealth / maxHealth * 100
+	label.text = "%.0f/%d HP" % [curHealth, maxHealth]
+
+func reload_weapon():
+	is_reloading = true
+	canShoot = false
+	
+	if gun_selected == "Pistol":
+		await play_reload_sound()
+		pistol_ammo = pistol_max_ammo
+	elif gun_selected == "Shotgun":
+		await play_reload_sound()
+		shotgun_ammo = shotgun_max_ammo
+	
+	is_reloading = false
+	canShoot = true
+
+func play_reload_sound():
+	var sound = AudioStreamPlayer.new()
+	sound.stream = reload_sound
+	add_child(sound)
+	sound.play()
+	await sound.finished
+	sound.queue_free()
+	
+func has_ammo():
+	if gun_selected == "Pistol":
+		return pistol_ammo > 0
+	elif gun_selected == "Shotgun":
+		return shotgun_ammo > 0
+	
+	return false
+	
