@@ -168,7 +168,7 @@ func _physics_process(delta):
 															 1000 * delta)
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	if body is Enemy and body not in enemies_inside:
+	if ((body is Enemy) or (body is SpookyBat)) and body not in enemies_inside:
 		enemies_inside.append(body)
 
 func _on_hitbox_body_exited(body: Node2D) -> void:
@@ -281,6 +281,8 @@ func update_gun_and_ammo_ui():
 		$"../UI/UnselectedShotgun".visible = false
 
 
+
+	
 		
 	
 	
