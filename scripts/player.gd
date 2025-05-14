@@ -20,6 +20,8 @@ var invulnerable: bool = false
 var knockback_velocity: Vector2 = Vector2.ZERO
 var enemies_inside := []
 
+
+
 # Upgradable stats
 var maxHealth: int = 100
 var shotPower: int = 20
@@ -35,10 +37,10 @@ var canShoot = true
 var invincible = false
 
 # ammo feature + reload variables
-var pistol_ammo: int = 20
-var pistol_max_ammo: int = 20
-var shotgun_ammo: int = 13
-var shotgun_max_ammo: int = 13
+var pistol_ammo: int = 15
+var pistol_max_ammo: int = 15
+var shotgun_ammo: int = 7
+var shotgun_max_ammo: int = 7
 var is_reloading: bool = false
 @onready var reload_sound = preload("res://assets/gunreload.mp3")
 
@@ -52,8 +54,10 @@ func _input(event):
 		match event.keycode:
 			KEY_1:
 				gun_selected = "Shotgun"
+				update_gun_and_ammo_ui()
 			KEY_2:
 				gun_selected = "Pistol"
+				update_gun_and_ammo_ui()
 			KEY_R:
 				if not is_reloading:
 					reload_weapon()
@@ -67,6 +71,7 @@ func _ready() -> void:
 	update_health_ui()
 	regenHealth()
 	contact_damage_loop()
+	update_gun_and_ammo_ui()
 
 func _process(delta):
 	maxHealth = 100 + (25 * SaveData.healthUpgradeLevel)
@@ -140,6 +145,8 @@ func shoot():
 			bullet.shotPower = shotPower / 4
 			get_tree().current_scene.add_child(bullet)
 			bullet.bullet_lifetime(randf_range(0.1, 0.2))
+	
+	update_gun_and_ammo_ui()
 
 func _physics_process(delta):
 	if not invincible:
@@ -211,6 +218,7 @@ func reload_weapon():
 	
 	is_reloading = false
 	canShoot = true
+	update_gun_and_ammo_ui()
 
 func play_reload_sound():
 	var sound = AudioStreamPlayer.new()
@@ -227,4 +235,49 @@ func has_ammo():
 		return shotgun_ammo > 0
 	
 	return false
+	
+func update_gun_and_ammo_ui():
+	var current_ammo_label = $"../UI/CurrentAmmo"
+	var max_ammo_label = $"../UI/MaxAmmoForGun"
+
+	if gun_selected == "Pistol":
+		current_ammo_label.text = "%02d" % pistol_ammo
+		max_ammo_label.text = "%02d" % pistol_max_ammo
+
+		# Color logic
+		if pistol_ammo == 0:
+			current_ammo_label.add_theme_color_override("font_color", Color.RED)
+		elif pistol_ammo <= 8:
+			current_ammo_label.add_theme_color_override("font_color", Color.YELLOW)
+		else:
+			current_ammo_label.add_theme_color_override("font_color", Color.WHITE)
+
+		# UI visibility
+		$"../UI/SelectedShotGun".visible = false
+		$"../UI/SelectedPistol".visible = true
+		$"../UI/UnselectedPistol".visible = false
+		$"../UI/UnselectedShotgun".visible = true
+
+	elif gun_selected == "Shotgun":
+		current_ammo_label.text = "%02d" % shotgun_ammo
+		max_ammo_label.text = "%02d" % shotgun_max_ammo
+
+		# Color logic
+		if shotgun_ammo == 0:
+			current_ammo_label.add_theme_color_override("font_color", Color.RED)
+		elif shotgun_ammo <= 4:
+			current_ammo_label.add_theme_color_override("font_color", Color.YELLOW)
+		else:
+			current_ammo_label.add_theme_color_override("font_color", Color.WHITE)
+
+		# UI visibility
+		$"../UI/SelectedShotGun".visible = true
+		$"../UI/SelectedPistol".visible = false
+		$"../UI/UnselectedPistol".visible = true
+		$"../UI/UnselectedShotgun".visible = false
+
+
+		
+	
+	
 	
