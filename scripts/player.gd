@@ -132,17 +132,18 @@ func shoot():
 		get_tree().current_scene.add_child(bullet)
 		bullet.bullet_lifetime(2.0)
 	elif gun_selected == "Shotgun":
-		var randCount = randi_range(3, 5)
+		var randCount = randi_range(4, 6)
+		var spreadCone = 20.0
 		var base = (get_global_mouse_position() - global_position).normalized()
 		for i in range(randCount):
 			var bullet = bullet_scene.instantiate()
-			var spread = randf_range(-15 + (30/randCount)*i,
-									  -15 + (30/randCount)*(i+1))
+			var spread = randf_range(-(spreadCone/2) + (spreadCone/randCount)*i,
+									  -(spreadCone/2) + (spreadCone/randCount)*(i+1))
 			var dir2 = base.rotated(deg_to_rad(spread))
 			bullet.global_position = global_position + dir2 * 10
 			bullet.direction = dir2
 			bullet.rotation = dir2.angle()
-			bullet.shotPower = shotPower / 4
+			bullet.shotPower = shotPower / 2.5
 			get_tree().current_scene.add_child(bullet)
 			bullet.bullet_lifetime(randf_range(0.1, 0.2))
 	
@@ -214,6 +215,9 @@ func reload_weapon():
 		pistol_ammo = pistol_max_ammo
 	elif gun_selected == "Shotgun":
 		await play_reload_sound()
+		await play_reload_sound()
+		await play_reload_sound()
+		
 		shotgun_ammo = shotgun_max_ammo
 	
 	is_reloading = false

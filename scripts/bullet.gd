@@ -1,7 +1,7 @@
 extends Area2D
 
 # Projectile speed
-@export var speed := 4500.0
+@export var speed := 3500.0
 # Amount of damage this projectile deals
 var shotPower: int
 
