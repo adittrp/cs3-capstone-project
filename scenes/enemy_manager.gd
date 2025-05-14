@@ -1,10 +1,6 @@
 extends Node2D
 class_name RoundManager
 
-# ——————————————————————————————————————————————————————————————
-# RoundManager.gd
-# Spawns both Zombies and Bats each wave, interleaving their logic
-# ——————————————————————————————————————————————————————————————
 
 # Tracks when all waves of this round have been spawned
 var RoundDone: bool = false
@@ -25,8 +21,7 @@ func _ready() -> void:
 	if bat_scene == null:
 		push_error("RoundManager: failed to preload 'spooky_bat.tscn'")
 		return
-
-	print("[RoundManager] _ready() — starting level %d" % LevelNumber)
+		
 	# Give the scene a moment to fully initialize
 	await get_tree().create_timer(1.0).timeout
 	# Begin the first round
@@ -107,7 +102,6 @@ func spawn_around_player(enemy_type: String, count: int) -> void:
 		return
 
 	var center = player.global_position
-	print("[RoundManager] Spawning %d %s around %s" % [count, enemy_type, center])
 
 	for i in range(count):
 		var inst = scene.instantiate() as Node2D
@@ -115,11 +109,10 @@ func spawn_around_player(enemy_type: String, count: int) -> void:
 		var offset = Vector2.ZERO
 
 		if enemy_type == "Zombie":
-			offset = Vector2(cos(angle), sin(angle)) * 1250.0
+			offset = Vector2(cos(angle), sin(angle)) * 1500.0
 		else:
-			var radius = randf_range(300.0, 600.0)
+			var radius = randf_range(1000.0, 1500.0)
 			offset = Vector2(cos(angle), sin(angle)) * radius + Vector2(0, -200)
 
 		inst.global_position = center + offset
 		add_child(inst)
-		print("  → %s #%d at %s" % [enemy_type, i+1, inst.global_position])

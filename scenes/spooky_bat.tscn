@@ -162,8 +162,11 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="SpookyBat" type="CharacterBody2D"]
+[node name="SpookyBat" type="CharacterBody2D" groups=["Enemies"]]
 z_index = 1
+scale = Vector2(1.5, 1.5)
+collision_layer = 3
+collision_mask = 17
 script = ExtResource("1_qvgix")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -180,19 +183,27 @@ shape = SubResource("CapsuleShape2D_yoftu")
 [node name="HealthBar" type="Control" parent="."]
 z_index = 1
 layout_mode = 3
-anchors_preset = 0
-offset_left = -24.0
-offset_top = -21.0
-offset_right = 24.0
-offset_bottom = -14.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ProgressBar" type="ProgressBar" parent="HealthBar"]
 z_index = 1
 clip_contents = true
-layout_mode = 0
-offset_right = 20.0
-offset_bottom = 5.0
-scale = Vector2(0.01, 0.01)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -85.3333
+offset_top = -31.3333
+offset_right = -51.3333
+offset_bottom = -25.3333
+grow_horizontal = 2
+scale = Vector2(5, 5)
 theme_override_styles/background = SubResource("StyleBoxFlat_p6ubt")
 theme_override_styles/fill = SubResource("StyleBoxFlat_3dstg")
 show_percentage = false

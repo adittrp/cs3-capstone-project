@@ -2,65 +2,68 @@ extends CharacterBody2D
 class_name SpookyBat
 
 # --- Stats & State ---
-@export var speed: float        = 100.0
-@export var max_health: int     = 100
-var health: int
-@export var damage: int         = 5
-@export var attack_range: float = 40.0
-
+var damage: int         = 5
+var max_health := 100
+var health     := max_health
+var speed      := randf_range(175, 250)
+var direction  := Vector2.RIGHT
+var cant_move  := false   
+var dead := false
 # --- Nodes ---
 @onready var sprite     = $AnimatedSprite2D
 @onready var health_bar = $HealthBar/ProgressBar
-@onready var player     = get_node("/root/World/Player")
 
-# --- Internal flags ---
+@onready var player     = get_node("/root/World/Player")
+@onready var coin_scene  = load("res://scenes/coin.tscn")
+@onready var coinManager = get_parent().get_parent().get_node("CoinManager")
+
+var attacking: bool = true
 var can_attack: bool = true
-var attacking:   bool = false
 
 func _ready() -> void:
-	# Register as an enemy so bullets can hit us
-	add_to_group("Enemies")
 	# Initialize health & UI
 	health = max_health
-	health_bar.max_value = max_health
-	health_bar.value     = health
+	update_health_bar()
 	sprite.play("fly_animation")
 
-func _physics_process(delta: float) -> void:
-	if health <= 0:
-		queue_free()
+func _physics_process(_delta: float) -> void:
+	if cant_move:
 		return
 
-	# Movement / attack
-	if not attacking and is_instance_valid(player):
+	if player:
+		# Don’t chase the player if they're invincible
+		if player.invincible:
+			return
+
 		var to_player = player.global_position - global_position
-		if to_player.length() <= attack_range and can_attack:
-			start_attack()
+
+		# Chase player if not too close
+		if to_player.length() > 20.0:
+			direction = to_player.normalized()
+			velocity = direction * speed
 		else:
-			velocity = to_player.normalized() * speed
-	else:
-		velocity = Vector2.ZERO
+			direction = Vector2.ZERO
+			velocity = Vector2.ZERO
 
-	move_and_slide()
-
-func start_attack() -> void:
-	attacking  = true
-	can_attack = false
-	velocity   = Vector2.ZERO
-	sprite.play("attack_animation")
-
-	await get_tree().create_timer(0.25).timeout
-	if is_instance_valid(player):
-		player.curHealth -= damage
-	await get_tree().create_timer(0.5).timeout
-
-	attacking  = false
-	can_attack = true
-	sprite.play("fly_animation")
-
+		move_and_slide()
+		
 # Called by Bullet.gd when a bullet hits this bat
 func shot_at(dmg: int) -> void:
 	health -= dmg
-	health_bar.value = max(health, 0)
-	if health <= 0:
+	if health <= 0 and !dead:
+		_drop_coins()
+		dead = true
 		queue_free()
+	else:
+		update_health_bar()
+
+func _drop_coins() -> void:
+	for i in range(SaveData.RoundLevel):
+		var c = coin_scene.instantiate()
+		var offset = Vector2(randf_range(-50,50), randf_range(-50,50))
+		c.position = coinManager.to_local(global_position + offset)
+		coinManager.add_child(c)
+		
+func update_health_bar() -> void:
+	health_bar.value     = health
+	health_bar.max_value = max_health
