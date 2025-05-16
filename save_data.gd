@@ -119,7 +119,6 @@ func load_data() -> void:
 	coins = save_data.get("coins", 0)
 	RoundLevel = save_data.get("RoundLevel", 1)
 	MaxUnlockedLevel = save_data.get("MaxUnlockedLevel", 1)
-
 # Refresh the mirror dictionary used by the UI
 func update_skill_data() -> void:
 	skillLevels = {

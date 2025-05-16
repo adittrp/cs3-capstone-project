@@ -45,9 +45,9 @@ func _ready() -> void:
 	
 	# Update Map
 	var Round = SaveData.get_level()
-	Map1.visible = (Round == 1)
-	Map2.visible = (Round == 2)
-	Map3.visible = (Round != 1 and Round != 2)
+	Map1.enabled = (Round == 1)
+	Map2.enabled = (Round == 2)
+	Map3.enabled = (Round != 1 and Round != 2)
 	
 # Called every frame
 func _process(delta: float) -> void:

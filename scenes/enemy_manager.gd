@@ -33,8 +33,8 @@ func _process(delta: float) -> void:
 		_on_round_passed()
 
 func get_round_data(level: int) -> Array:
-	var z_base = 5  + (level - 1) * 7
-	var b_base = 3  + (level - 1) * 7
+	var z_base = 5  + (level - 1) * 5
+	var b_base = 3  + (level - 1) * 5
 	return [
 		{"type":"Zombie", "base":z_base, "interval":30.0},
 		{"type":"Bat",    "base":b_base, "interval":20.0}
@@ -50,14 +50,14 @@ func start_round(level: int) -> void:
 	var waves = 20
 
 	for w in range(waves):
-		var z_count = z_inf.base + w
-		var b_count = b_inf.base + w
+		var z_count = z_inf.base + int(w/2)
+		var b_count = b_inf.base + int(w/2)
 
 		spawn_around_player("Zombie", z_count)
 		spawn_around_player("Bat",    b_count)
 
 		SaveData.CoinValue   = level + 0.05 * w
-		SaveData.DamageScale = level + 0.05 * w
+		SaveData.DamageScale = level + 0.1 * w
 
 		var delay = min(z_inf.interval, b_inf.interval)
 		await get_tree().create_timer(delay).timeout
