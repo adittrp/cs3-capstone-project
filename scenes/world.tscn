@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://lgrpl3axaq1r"]
+[gd_scene load_steps=50 format=4 uid="uid://lgrpl3axaq1r"]
 
 [ext_resource type="Script" uid="uid://dosrs2jwg6b0v" path="res://scripts/world.gd" id="1_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://dtth00fwobnkp" path="res://tile_stuff/Spritesheet/spritesheet_tiles.png" id="2_71j4m"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://diemxckftmyrr" path="res://assets/home_bar_menu.png" id="11_xo05s"]
 [ext_resource type="Texture2D" uid="uid://3rg2uu7254nr" path="res://assets/upgrades_bar.png" id="12_dss4m"]
 [ext_resource type="Texture2D" uid="uid://bc3fat12bpbn2" path="res://assets/settings_bar.png" id="13_7t5mc"]
+[ext_resource type="PackedScene" uid="uid://x18xijunhogd" path="res://panel.tscn" id="14_oo54l"]
 [ext_resource type="Script" uid="uid://bnelsrut0plmv" path="res://scripts/menu_button.gd" id="14_xo05s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_71j4m"]
@@ -1661,6 +1662,12 @@ offset_right = 2253.0
 offset_bottom = 1335.0
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("10_pm21f")
+
+[node name="Panel" parent="UI" instance=ExtResource("14_oo54l")]
+offset_left = 589.0
+offset_top = 333.0
+offset_right = 1183.0
+offset_bottom = 682.0
 
 [node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_w7kh3")

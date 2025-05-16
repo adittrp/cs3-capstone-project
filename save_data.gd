@@ -80,6 +80,7 @@ func save_game() -> void:
 		"hypnosisPowerUpgradeLevel": hypnosisPowerUpgradeLevel,
 		"timeSlowUpgradeLevel": timeSlowUpgradeLevel,
 		"coins": coins,
+		"RoundLevel": RoundLevel,
 		"MaxUnlockedLevel": MaxUnlockedLevel
 	}
 
@@ -116,6 +117,7 @@ func load_data() -> void:
 	hypnosisPowerUpgradeLevel = save_data.get("hypnosisPowerUpgradeLevel", 0)
 	timeSlowUpgradeLevel = save_data.get("timeSlowUpgradeLevel", 0)
 	coins = save_data.get("coins", 0)
+	RoundLevel = save_data.get("RoundLevel", 1)
 	MaxUnlockedLevel = save_data.get("MaxUnlockedLevel", 1)
 
 # Refresh the mirror dictionary used by the UI

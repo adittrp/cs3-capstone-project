@@ -64,6 +64,7 @@ func _on_next_page():
 
 func _on_level_selected(level: int):
 	SaveData.RoundLevel = level
+	SaveData.save_game()
 	get_tree().change_scene_to_file("res://scenes/world.tscn")
 
 

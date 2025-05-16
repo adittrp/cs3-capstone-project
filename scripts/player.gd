@@ -282,10 +282,5 @@ func update_gun_and_ammo_ui():
 		$"../UI/UnselectedPistol".visible = true
 		$"../UI/UnselectedShotgun".visible = false
 
-
-
-	
-		
-	
-	
-	
+func _on_died() -> void:
+	print("died")

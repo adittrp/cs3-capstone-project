@@ -53,6 +53,7 @@ pitch_scale = 0.55
 stream = ExtResource("5_qlg0r")
 volume_db = 14.857
 
+[connection signal="died" from="." to="." method="_on_died"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_shape_entered" from="Hitbox" to="." method="_on_hitbox_area_shape_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

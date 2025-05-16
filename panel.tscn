@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://x18xijunhogd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3owiw"]
+bg_color = Color(0.509352, 0.354326, 0.150349, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="Panel" type="Panel"]
+offset_right = 594.0
+offset_bottom = 349.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_3owiw")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 24.0
+offset_right = 399.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 36
+text = "PlaceHolder"
+
+[node name="RetryButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 133.0
+offset_right = 450.0
+offset_bottom = 173.0
+text = "Retry"
+
+[node name="ExitButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 213.0
+offset_right = 450.0
+offset_bottom = 253.0
+text = "Exit"
