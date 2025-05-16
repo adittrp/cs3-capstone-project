@@ -33,8 +33,8 @@ func _process(delta: float) -> void:
 		_on_round_passed()
 
 func get_round_data(level: int) -> Array:
-	var z_base = 5  + (level - 1) * 20
-	var b_base = 3  + (level - 1) * 5
+	var z_base = 5  + (level - 1) * 7
+	var b_base = 3  + (level - 1) * 7
 	return [
 		{"type":"Zombie", "base":z_base, "interval":30.0},
 		{"type":"Bat",    "base":b_base, "interval":20.0}
@@ -48,7 +48,7 @@ func start_round(level: int) -> void:
 	var rd    = get_round_data(level)
 	var z_inf = rd[0]
 	var b_inf = rd[1]
-	var waves = 1
+	var waves = 20
 
 	for w in range(waves):
 		var z_count = z_inf.base + w

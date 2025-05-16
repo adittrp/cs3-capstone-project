@@ -3,7 +3,7 @@ class_name SpookyBat
 
 # --- Stats & State ---
 var damage: int         = 5
-var max_health := 100
+var max_health := 50
 var health     := max_health
 var speed      := randf_range(175, 250)
 var direction  := Vector2.RIGHT

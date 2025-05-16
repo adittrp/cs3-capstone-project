@@ -8,6 +8,13 @@ extends Node2D
 @onready var hud = get_node("HUD")
 @onready var ui = get_node("UI")
 @onready var timer_label: Label = $UI/TimePanel/Control/Label
+
+@onready var Map1 = $Tilemapstuffs/Map1
+@onready var Map2 = $Tilemapstuffs/Map2
+@onready var Map3 = $Tilemapstuffs/Map3
+
+var maps := [Map1, Map2, Map3]
+
 var time_elapsed := 0.0
 
 # Called when the node is ready
@@ -33,9 +40,15 @@ func _ready() -> void:
 	health_label.text = str(player.curHealth) + " HP"
 	
 	# Update coin display after a short delay
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.1).timeout
 	_update_coin_display()
-
+	
+	# Update Map
+	var Round = SaveData.get_level()
+	Map1.visible = (Round == 1)
+	Map2.visible = (Round == 2)
+	Map3.visible = (Round != 1 and Round != 2)
+	
 # Called every frame
 func _process(delta: float) -> void:
 	# Update elapsed time and display it

@@ -135,6 +135,9 @@ func update_skill_data() -> void:
 		"Hypnosis Power": hypnosisPowerUpgradeLevel,
 		"Time Slow": timeSlowUpgradeLevel
 	}
+	
+func get_level():
+	return RoundLevel
 
 # Reset all upgrades and set coins to a high number for testing
 func reset():
