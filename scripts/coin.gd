@@ -14,6 +14,9 @@ var target_player: Node = null
 var attract_time: float = 0.0
 var collected: bool = false
 
+# Make sure only one coin sound plays
+static var soundPlaying = false
+
 func _ready() -> void:
 	# Start monitoring for body overlaps and connect signal manually
 	monitoring = true
@@ -54,7 +57,9 @@ func collect() -> void:
 	get_node("/root/World").add_coin(value)
 
 	# Play pickup sound effect
-	sfx.play()
+	if !soundPlaying:
+		sfx.play()
+		soundPlaying = true
 
 	# Hide the coin visually and disable collisions
 	sprite.visible = false
@@ -64,5 +69,7 @@ func collect() -> void:
 	set_process(false)
 
 	# Wait until the sound finishes before freeing the node
-	await sfx.finished
+	if soundPlaying:
+		await sfx.finished
+		soundPlaying = false
 	queue_free()
