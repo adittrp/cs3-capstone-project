@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://diemxckftmyrr" path="res://assets/home_bar_menu.png" id="11_xo05s"]
 [ext_resource type="Texture2D" uid="uid://3rg2uu7254nr" path="res://assets/upgrades_bar.png" id="12_dss4m"]
 [ext_resource type="Texture2D" uid="uid://bc3fat12bpbn2" path="res://assets/settings_bar.png" id="13_7t5mc"]
-[ext_resource type="PackedScene" uid="uid://x18xijunhogd" path="res://panel.tscn" id="14_oo54l"]
+[ext_resource type="PackedScene" path="res://panel.tscn" id="14_oo54l"]
 [ext_resource type="Script" uid="uid://bnelsrut0plmv" path="res://scripts/menu_button.gd" id="14_xo05s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_71j4m"]
@@ -1535,7 +1535,6 @@ scale = Vector2(0.15, 0.15)
 script = ExtResource("4_7r4gi")
 
 [node name="UI" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="HealthBar" type="ProgressBar" parent="UI"]
 offset_left = 648.0
@@ -1699,7 +1698,6 @@ stream = ExtResource("10_w7kh3")
 volume_db = -13.247
 
 [node name="HUD" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="PopupMenuPanel" type="PanelContainer" parent="HUD"]
 visible = false
