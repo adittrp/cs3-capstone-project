@@ -41,7 +41,6 @@ func get_round_data(level: int) -> Array:
 	]
 
 func start_round(level: int) -> void:
-	print("[RoundManager] start_round(level=%d)" % level)
 	RoundDone = false
 	await get_tree().create_timer(1.0).timeout
 
@@ -53,8 +52,6 @@ func start_round(level: int) -> void:
 	for w in range(waves):
 		var z_count = z_inf.base + w
 		var b_count = b_inf.base + w
-		print("[RoundManager] Wave %d/%d — Zombies=%d, Bats=%d"
-			  % [w+1, waves, z_count, b_count])
 
 		spawn_around_player("Zombie", z_count)
 		spawn_around_player("Bat",    b_count)
@@ -66,7 +63,6 @@ func start_round(level: int) -> void:
 		await get_tree().create_timer(delay).timeout
 
 	RoundDone = true
-	print("[RoundManager] Round %d complete" % level)
 
 func spawn_around_player(enemy_type: String, count: int) -> void:
 	if not is_instance_valid(player):
@@ -95,14 +91,12 @@ func spawn_around_player(enemy_type: String, count: int) -> void:
 		add_child(inst)
 
 func _on_player_died() -> void:
-	print("[RoundManager] Player died")
 	msg_label.text = "You Died!"
 	game_over_panel.visible = true
 	set_process(false)
 
 func _on_round_passed() -> void:
 	LevelNumber += 1
-	print("[RoundManager] Advancing to level %d" % LevelNumber)
 	SaveData.RoundLevel = LevelNumber
 	if LevelNumber > SaveData.MaxUnlockedLevel:
 		SaveData.MaxUnlockedLevel = LevelNumber
