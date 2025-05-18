@@ -10,11 +10,6 @@ var regenerationUpgradeLevel: int = 0
 var magnetUpgradeLevel: int = 0
 var coinMultiplierUpgradeLevel: int = 0
 
-# Have not added yet
-var dashUpgradeLevel: int = 0
-var hypnosisPowerUpgradeLevel: int = 0
-var timeSlowUpgradeLevel: int = 0
-
 # Currency
 var coins: int = 0
 
@@ -30,10 +25,7 @@ var skillLevels = {
 	"Armor Plating": armorUpgradeLevel,
 	"Health Regeneration": regenerationUpgradeLevel,
 	"Coin Magnet Strength": magnetUpgradeLevel,
-	"Coin Multiplier": coinMultiplierUpgradeLevel,
-	"Dash": dashUpgradeLevel,
-	"Hypnosis Power": hypnosisPowerUpgradeLevel,
-	"Time Slow": timeSlowUpgradeLevel
+	"Coin Multiplier": coinMultiplierUpgradeLevel
 }
 
 # Skill upgrade prices [base value, exponential value]
@@ -45,10 +37,7 @@ var skillLevelPrices = {
 	"Armor Plating": [25, 1.2],
 	"Health Regeneration": [25, 1.5],
 	"Coin Magnet Strength": [40, 1.25],
-	"Coin Multiplier": [25, 1.25],
-	"Dash": [0, 0],
-	"Hypnosis Power": [0, 0],
-	"Time Slow": [0, 0]
+	"Coin Multiplier": [25, 1.25]
 }
 
 # Coin value multiplier
@@ -76,9 +65,6 @@ func save_game() -> void:
 		"regenerationUpgradeLevel": regenerationUpgradeLevel,
 		"magnetUpgradeLevel": magnetUpgradeLevel,
 		"coinMultiplierUpgradeLevel": coinMultiplierUpgradeLevel,
-		"dashUpgradeLevel": dashUpgradeLevel,
-		"hypnosisPowerUpgradeLevel": hypnosisPowerUpgradeLevel,
-		"timeSlowUpgradeLevel": timeSlowUpgradeLevel,
 		"coins": coins,
 		"RoundLevel": RoundLevel,
 		"MaxUnlockedLevel": MaxUnlockedLevel
@@ -113,9 +99,6 @@ func load_data() -> void:
 	regenerationUpgradeLevel = save_data.get("regenerationUpgradeLevel", 0)
 	magnetUpgradeLevel = save_data.get("magnetUpgradeLevel", 0)
 	coinMultiplierUpgradeLevel = save_data.get("coinMultiplierUpgradeLevel", 0)
-	dashUpgradeLevel = save_data.get("dashUpgradeLevel", 0)
-	hypnosisPowerUpgradeLevel = save_data.get("hypnosisPowerUpgradeLevel", 0)
-	timeSlowUpgradeLevel = save_data.get("timeSlowUpgradeLevel", 0)
 	coins = save_data.get("coins", 0)
 	RoundLevel = save_data.get("RoundLevel", 1)
 	MaxUnlockedLevel = save_data.get("MaxUnlockedLevel", 1)
@@ -129,10 +112,7 @@ func update_skill_data() -> void:
 		"Armor Plating": armorUpgradeLevel,
 		"Health Regeneration": regenerationUpgradeLevel,
 		"Coin Magnet Strength": magnetUpgradeLevel,
-		"Coin Multiplier": coinMultiplierUpgradeLevel,
-		"Dash": dashUpgradeLevel,
-		"Hypnosis Power": hypnosisPowerUpgradeLevel,
-		"Time Slow": timeSlowUpgradeLevel
+		"Coin Multiplier": coinMultiplierUpgradeLevel
 	}
 	
 func get_level():
@@ -148,7 +128,4 @@ func reset():
 	regenerationUpgradeLevel = 0
 	magnetUpgradeLevel = 0
 	coinMultiplierUpgradeLevel = 0
-	dashUpgradeLevel = 0
-	hypnosisPowerUpgradeLevel = 0
-	timeSlowUpgradeLevel = 0
 	coins = 1000000

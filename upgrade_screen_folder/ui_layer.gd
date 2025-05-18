@@ -59,46 +59,7 @@ var test_skills = [
 	}
 ]
 
-# Sample abilities data
-var test_abilities = [
-	{
-		"name": "Dash",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
-		"level": 1,
-		"stat": 1.5,
-		"next_stat": 2.0,
-		"cost": 60,
-		"desc": "Grants the player a quick dash move to evade enemies or reposition. The dash distance and speed improve with each upgrade, allowing tighter movement in combat situations."
-	},
-	{
-		"name": "Hypnosis Power",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
-		"level": 1,
-		"stat": 3,
-		"next_stat": 5,
-		"cost": 90,
-		"desc": "Releases a burst of hypnotic energy that temporarily stuns nearby enemies. Increasing its level improves range and duration, making it a powerful tool for crowd control or escape."
-	},
-	{
-		"name": "Time Slow",
-		"icon": preload("res://upgrade_screen_folder/images/exampleicon.jpg"),
-		"level": 1,
-		"stat": 0.5,
-		"next_stat": 0.65,
-		"cost": 100,
-		"desc": "Temporarily slows down time during activation, giving you a speed and awareness advantage. Each upgrade increases the effect's duration and reduces its cooldown."
-	}
-]
-
 func _ready():
-
-	# Load Abilities into the UI
-	for data in test_abilities:
-		var entry = ability_entry_scene.instantiate()
-		entry.set_data(data)
-		entry.ability_selected.connect(_on_ability_selected)
-		ability_list.add_child(entry)
-
 	# Load Skills into the UI
 	for data in test_skills:
 		var entry = skill_entry_scene.instantiate()

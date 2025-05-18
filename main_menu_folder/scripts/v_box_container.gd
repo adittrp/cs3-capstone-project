@@ -18,4 +18,4 @@ func on_button_hover(sound: AudioStream):
 func on_button_pressed():
 	$AudioStreamPlayer2D.stream = sound2
 	$AudioStreamPlayer2D.volume_db = 10  # Same boost
-	$AudioStreamPlayer2D.play()
+	#$AudioStreamPlayer2D.play()
